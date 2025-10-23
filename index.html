@@ -329,6 +329,7 @@
       .wake-lock-btn,
       .fullscreen-btn,
       .github-btn,
+      .website-btn,
       .zoom-btn {
         font-size: 28.8px !important; /* 1.8rem at 100% = 28.8px */
       }
@@ -344,6 +345,7 @@
       .button-container .wake-lock-btn,
       .button-container .fullscreen-btn,
       .button-container .github-btn,
+      .button-container .website-btn,
       .button-container .zoom-btn,
       .button-container .hide-buttons-btn {
         position: relative;
@@ -378,6 +380,7 @@
       .button-container .wake-lock-btn:hover,
       .button-container .fullscreen-btn:hover,
       .button-container .github-btn:hover,
+      .button-container .website-btn:hover,
       .button-container .zoom-btn:hover {
         transform: scale(1.1);
         background: #f5f5f5;
@@ -390,6 +393,12 @@
       .button-container .github-btn:hover {
         background: #333;
         border-color: #333;
+        color: white;
+      }
+
+      .button-container .website-btn:hover {
+        background: #2196f3;
+        border-color: #2196f3;
         color: white;
       }
 
@@ -1505,13 +1514,25 @@
           <button
             class="download-btn"
             onclick="downloadHTML()"
-            data-tooltip="Download HTML"
-            aria-label="Download HTML"
+            data-tooltip="Download File"
+            aria-label="Download File"
           >
             💾
           </button>
 
           <div class="button-spacer"></div>
+
+          <!-- Website Link -->
+          <a
+            href="https://nick-myers.github.io/exam-timer/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="website-btn"
+            data-tooltip="Open Website Version"
+            aria-label="Open Website Version"
+          >
+            🌐
+          </a>
 
           <!-- GitHub -->
           <a
