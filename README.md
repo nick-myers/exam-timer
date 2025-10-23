@@ -191,3 +191,5 @@ The entire application source code is visible by opening the HTML file in any te
 ## License
 
 This is a custom tool created for educational use. Feel free to modify the HTML file to suit your needs.
+
+This project is released under [The Unlicense](https://unlicense.org/).
