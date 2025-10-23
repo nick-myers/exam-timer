@@ -479,18 +479,18 @@
       }
 
       th:nth-child(1) {
-        width: 12%;
+        width: 15%;
         text-align: center;
       } /* Ref */
       th:nth-child(2) {
-        width: 48%;
+        width: 52%;
       } /* Exam Details */
       th:nth-child(3) {
-        width: 15%;
+        width: 13%;
         text-align: center;
       } /* Start Time */
       th:nth-child(4) {
-        width: 25%;
+        width: 20%;
         text-align: center;
       } /* Finish Time */
 
@@ -541,7 +541,6 @@
       .exam-extra {
         font-size: 2.8rem;
         color: var(--secondary-color);
-        font-weight: 600;
         margin-left: 8px;
         line-height: 1.1;
       }
@@ -564,7 +563,6 @@
       .extra-time-finish {
         font-size: 2.8rem;
         color: var(--secondary-color);
-        font-weight: 600;
         line-height: 1.1;
       }
 
@@ -1190,7 +1188,7 @@
           onclick="downloadHTML()"
           title="Download HTML"
         >
-          ⬇
+          💾
         </button>
         <button
           class="delete-all-btn"
@@ -1919,6 +1917,12 @@
         document.getElementById("extraTimeField").style.display = "grid";
         document.getElementById("finishTimeDisplay").textContent = "-";
         document.getElementById("extraTimeFinishDisplay").textContent = "-";
+
+        // If there are existing exams, pre-populate start time with the most recent exam's start time
+        if (exams.length > 0) {
+          const lastExam = exams[exams.length - 1];
+          document.getElementById("startTimeInput").value = lastExam.startTime;
+        }
 
         // Hide delete button for add mode
         document.getElementById("deleteBtn").style.display = "none";
