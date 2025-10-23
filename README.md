@@ -100,7 +100,7 @@ The application may request one optional permission:
 - **Edit an exam** - Click on any row in the table
 - **Delete an exam** - Click on a row, then click the Delete button in the edit form
 - **Delete all exams** - Click the 🗑️ icon in the bottom left corner
-- **Download/backup** - Click the 💾 icon to download your exam schedule as a JSON file
+- **Download/backup** - Click the 💾 icon to download the HTML file with your current exam data
 
 ### Display Controls
 

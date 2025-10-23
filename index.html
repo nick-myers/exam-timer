@@ -135,19 +135,48 @@
 
       /* Color Picker */
       .color-picker {
-        margin-top: 40px;
-        padding: 25px;
+        margin-top: 15px;
+        padding: 20px;
         background: #f8f9fa;
         border-radius: 10px;
-        max-width: 600px;
         width: 100%;
       }
 
       .color-picker h3 {
-        font-size: 1.3rem;
-        margin-bottom: 20px;
+        font-size: 1.1rem;
+        margin-bottom: 12px;
         color: #333;
         text-align: center;
+      }
+
+      /* Settings grid layout */
+      .settings-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        width: 100%;
+        max-width: 800px;
+      }
+
+      @media (min-width: 768px) {
+        .settings-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+        .settings-grid-full {
+          grid-column: 1 / -1;
+        }
+      }
+
+      /* Ensure all sections have equal visual weight */
+      .color-picker {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .color-picker > div:last-child {
+        margin-top: auto;
       }
 
       .color-inputs {
@@ -557,6 +586,9 @@
           var(--secondary-color) 100%
         );
         color: white;
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
 
       th {
@@ -565,6 +597,7 @@
         font-weight: 600;
         font-size: 2rem;
         white-space: nowrap;
+        background: inherit;
       }
 
       th:nth-child(1) {
@@ -703,8 +736,57 @@
       }
 
       .floating-add-btn:disabled {
-        opacity: 0.4;
         cursor: not-allowed;
+        background: rgba(255, 255, 255, 0.6);
+        color: rgba(153, 0, 0, 0.4);
+        border-color: rgba(153, 0, 0, 0.4);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Tooltip for floating add button */
+      .floating-add-btn[data-tooltip]::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 14px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #000;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: normal;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0s;
+        z-index: 1001;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .floating-add-btn[data-tooltip]::after {
+        content: "";
+        position: absolute;
+        bottom: calc(100% + 7px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #000;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0s;
+        z-index: 1000;
+      }
+
+      .floating-add-btn:hover[data-tooltip]::before,
+      .floating-add-btn:hover[data-tooltip]::after {
+        opacity: 1;
+        visibility: visible;
       }
 
       .empty-row {
@@ -893,6 +975,17 @@
       .btn-secondary {
         background: #6c757d;
         color: white;
+      }
+
+      .btn-secondary:disabled {
+        background: #ccc;
+        color: #888;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      .btn-secondary:disabled:hover {
+        transform: none !important;
       }
 
       .btn-danger {
@@ -1161,65 +1254,82 @@
         >
           ×
         </button>
-        <h1>Settings</h1>
+        <h1 style="margin-bottom: 25px; font-size: 2rem">Settings</h1>
 
-        <div class="color-picker" style="margin-top: 20px">
-          <h3>Exam Centre Details</h3>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 15px;
-              margin-top: 15px;
-            "
-          >
-            <div>
-              <label
+        <div class="settings-grid">
+          <div class="color-picker settings-grid-full" style="margin-top: 0">
+            <h3>Exam Centre Details</h3>
+            <div style="flex: 1">
+              <div
                 style="
-                  display: block;
-                  margin-bottom: 8px;
-                  font-weight: 600;
-                  color: #555;
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 15px;
+                  margin-top: 15px;
                 "
-                >Centre Name</label
               >
-              <input
-                type="text"
-                id="centreNameInput"
-                placeholder="e.g., Marlborough Science Academy"
-                style="
-                  width: 100%;
-                  padding: 12px;
-                  font-size: 1.1rem;
-                  border: 2px solid #ddd;
-                  border-radius: 8px;
-                "
-              />
+                <div>
+                  <label
+                    style="
+                      display: block;
+                      margin-bottom: 6px;
+                      font-weight: 600;
+                      color: #555;
+                      font-size: 0.9rem;
+                    "
+                    >Centre Name</label
+                  >
+                  <input
+                    type="text"
+                    id="centreNameInput"
+                    placeholder="e.g., Marlborough Science Academy"
+                    style="
+                      width: 100%;
+                      padding: 10px;
+                      font-size: 1rem;
+                      border: 2px solid #ddd;
+                      border-radius: 8px;
+                    "
+                  />
+                </div>
+                <div>
+                  <label
+                    style="
+                      display: block;
+                      margin-bottom: 6px;
+                      font-weight: 600;
+                      color: #555;
+                      font-size: 0.9rem;
+                    "
+                    >Centre Number</label
+                  >
+                  <input
+                    type="text"
+                    id="centreNumberInput"
+                    placeholder="e.g., 12345"
+                    style="
+                      width: 100%;
+                      padding: 10px;
+                      font-size: 1rem;
+                      border: 2px solid #ddd;
+                      border-radius: 8px;
+                    "
+                  />
+                </div>
+              </div>
             </div>
-            <div>
-              <label
-                style="
-                  display: block;
-                  margin-bottom: 8px;
-                  font-weight: 600;
-                  color: #555;
-                "
-                >Centre Number</label
-              >
-              <input
-                type="text"
-                id="centreNumberInput"
-                placeholder="e.g., 12345"
-                style="
-                  width: 100%;
-                  padding: 12px;
-                  font-size: 1.1rem;
-                  border: 2px solid #ddd;
-                  border-radius: 8px;
-                "
-              />
-            </div>
-            <div style="text-align: center">
+            <div
+              style="
+                text-align: center;
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                margin-top: 15px;
+              "
+            >
+              <button class="reset-colors-btn" onclick="resetCentreInfo()">
+                Reset to Default
+              </button>
               <button
                 class="reset-colors-btn"
                 onclick="saveCentreInfo()"
@@ -1229,43 +1339,83 @@
               </button>
             </div>
           </div>
-        </div>
 
-        <div class="color-picker">
-          <h3>Customise Colours</h3>
-          <div class="color-inputs">
-            <div class="color-input-group">
-              <label>Primary Color</label>
-              <input
-                type="color"
-                id="primaryColorInput"
-                value="#990000"
-                onchange="updateColors()"
-              />
+          <div class="color-picker" style="margin-top: 0">
+            <h3>Customise Colours</h3>
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div class="color-inputs" style="margin-top: 0">
+                <div class="color-input-group">
+                  <label>Primary</label>
+                  <input
+                    type="color"
+                    id="primaryColorInput"
+                    value="#990000"
+                    onchange="updateColors()"
+                  />
+                </div>
+                <div class="color-input-group">
+                  <label>Secondary</label>
+                  <input
+                    type="color"
+                    id="secondaryColorInput"
+                    value="#cc0000"
+                    onchange="updateColors()"
+                  />
+                </div>
+                <div class="color-input-group">
+                  <label>Accent</label>
+                  <input
+                    type="color"
+                    id="accentColorInput"
+                    value="#dd3333"
+                    onchange="updateColors()"
+                  />
+                </div>
+              </div>
             </div>
-            <div class="color-input-group">
-              <label>Secondary Color</label>
-              <input
-                type="color"
-                id="secondaryColorInput"
-                value="#cc0000"
-                onchange="updateColors()"
-              />
-            </div>
-            <div class="color-input-group">
-              <label>Accent Color</label>
-              <input
-                type="color"
-                id="accentColorInput"
-                value="#dd3333"
-                onchange="updateColors()"
-              />
+            <div style="text-align: center">
+              <button class="reset-colors-btn" onclick="resetColors()">
+                Reset Colors
+              </button>
             </div>
           </div>
-          <div style="text-align: center">
-            <button class="reset-colors-btn" onclick="resetColors()">
-              Reset to Default Colors
-            </button>
+
+          <div class="color-picker" style="margin-top: 0">
+            <h3>Demo Data</h3>
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px 0;
+              "
+            >
+              <p
+                style="
+                  color: #666;
+                  font-size: 0.9rem;
+                  margin: 0;
+                  text-align: center;
+                  max-width: 300px;
+                "
+              >
+                Load Harry Potter themed sample exams (only when no exams
+                exist).
+              </p>
+            </div>
+            <div style="text-align: center">
+              <button class="reset-colors-btn" onclick="loadDemoData()">
+                Load Demo Data
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1279,6 +1429,7 @@
             class="settings-btn"
             onclick="openSettings()"
             data-tooltip="Settings"
+            aria-label="Settings"
           >
             ⚙
           </button>
@@ -1286,6 +1437,7 @@
             class="delete-all-btn"
             onclick="deleteAllExams()"
             data-tooltip="Delete All Exams"
+            aria-label="Delete All Exams"
           >
             🗑
           </button>
@@ -1298,6 +1450,7 @@
             class="fullscreen-btn"
             onclick="toggleFullscreen()"
             data-tooltip="Toggle Fullscreen"
+            aria-label="Toggle Fullscreen"
           >
             ⛶
           </button>
@@ -1310,6 +1463,7 @@
             class="zoom-btn zoom-out-btn"
             onclick="zoomOut()"
             data-tooltip="Zoom Out"
+            aria-label="Zoom Out"
           >
             −
           </button>
@@ -1318,6 +1472,7 @@
             class="zoom-btn zoom-reset-btn"
             onclick="resetZoom()"
             data-tooltip="Reset Zoom"
+            aria-label="Reset Zoom"
           >
             100%
           </button>
@@ -1326,6 +1481,7 @@
             class="zoom-btn zoom-in-btn"
             onclick="zoomIn()"
             data-tooltip="Zoom In"
+            aria-label="Zoom In"
           >
             +
           </button>
@@ -1338,6 +1494,7 @@
             class="wake-lock-btn"
             onclick="toggleWakeLock()"
             data-tooltip="Keep Screen Awake"
+            aria-label="Keep Screen Awake"
           >
             💡
           </button>
@@ -1349,6 +1506,7 @@
             class="download-btn"
             onclick="downloadHTML()"
             data-tooltip="Download HTML"
+            aria-label="Download HTML"
           >
             💾
           </button>
@@ -1362,6 +1520,7 @@
             rel="noopener noreferrer"
             class="github-btn"
             data-tooltip="View on GitHub"
+            aria-label="View on GitHub"
           >
             <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor">
               <path
@@ -1375,6 +1534,7 @@
             class="hide-buttons-btn"
             onclick="toggleButtons()"
             data-tooltip="Hide Controls"
+            aria-label="Hide Controls"
           >
             ◀
           </button>
@@ -1419,7 +1579,7 @@
           class="floating-add-btn"
           id="floatingAddBtn"
           onclick="openAddModal()"
-          title="Add Exam"
+          data-tooltip="Add Exam"
         >
           +
         </button>
@@ -1522,7 +1682,7 @@
                   <input
                     type="number"
                     id="extraTimeMinutes"
-                    placeholder="Auto-calculated as 25%"
+                    placeholder="Auto (25%)"
                     min="1"
                     max="59"
                     oninput="updateExtraFinishFromMinutes(); clearError('extraTimeMinutes')"
@@ -1530,9 +1690,11 @@
                   />
                   <button
                     type="button"
+                    id="resetExtraTimeBtn"
                     class="btn-secondary"
                     onclick="resetExtraTimeToAuto()"
                     style="padding: 12px 20px; white-space: nowrap"
+                    disabled
                   >
                     Reset to Auto
                   </button>
@@ -1577,7 +1739,7 @@
       let editingExamId = null;
 
       // Default centre info
-      const DEFAULT_CENTRE_NAME = "Marlborough Science Academy";
+      const DEFAULT_CENTRE_NAME = "The Marlborough Science Academy";
       const DEFAULT_CENTRE_NUMBER = "17533";
 
       // Initialize app
@@ -1660,6 +1822,19 @@
         document.getElementById("centreNumberInput").value = centreNumber;
       }
 
+      // Reset centre info to defaults
+      function resetCentreInfo() {
+        document.getElementById("centreNameInput").value = DEFAULT_CENTRE_NAME;
+        document.getElementById("centreNumberInput").value =
+          DEFAULT_CENTRE_NUMBER;
+
+        localStorage.setItem("centreName", DEFAULT_CENTRE_NAME);
+        localStorage.setItem("centreNumber", DEFAULT_CENTRE_NUMBER);
+
+        updateCentreDisplay();
+        alert("Centre details reset to default values");
+      }
+
       // Save centre info
       function saveCentreInfo() {
         let centreName = document
@@ -1711,6 +1886,74 @@
         }
       }
 
+      // Load demo exam data
+      function loadDemoData() {
+        // Check if there are existing exams
+        if (exams.length > 0) {
+          alert(
+            "Cannot load demo data because exam entries already exist. Please delete all exams first."
+          );
+          return;
+        }
+
+        // Create Harry Potter themed demo data
+        const demoExams = [
+          {
+            id: Date.now() + 1,
+            ref: "MAG101/1",
+            subject: "Defence Against the Dark Arts",
+            startTime: "10:00",
+            finishTime: "12:00", // 2 hours
+            extraTimeEnabled: false,
+            customExtraTime: null,
+          },
+          {
+            id: Date.now() + 2,
+            ref: "MAG102/2",
+            subject: "Potions",
+            startTime: "10:00",
+            finishTime: "11:30", // 1.5 hours
+            extraTimeEnabled: false,
+            customExtraTime: null,
+          },
+          {
+            id: Date.now() + 3,
+            ref: "MAG103/3",
+            subject: "Transfiguration",
+            startTime: "10:00",
+            finishTime: "11:45", // 1 hour 45 minutes
+            extraTimeEnabled: false,
+            customExtraTime: null,
+          },
+          {
+            id: Date.now() + 4,
+            ref: "MAG104/4",
+            subject: "Charms",
+            startTime: "10:00",
+            finishTime: "11:00", // 1 hour
+            extraTimeEnabled: false,
+            customExtraTime: null,
+          },
+          {
+            id: Date.now() + 5,
+            ref: "MAG105/5",
+            subject: "History of Magic",
+            startTime: "10:00",
+            finishTime: "12:30", // 2.5 hours
+            extraTimeEnabled: false,
+            customExtraTime: null,
+          },
+        ];
+
+        // Load the demo data
+        exams.push(...demoExams);
+        saveExams();
+        renderExams();
+
+        // Close settings dialog
+        closeSettings();
+      }
+
       // Download HTML file
       async function downloadHTML() {
         let htmlContent;
@@ -1738,7 +1981,9 @@
           URL.revokeObjectURL(url);
         } catch (err) {
           console.error("Download failed:", err);
-          alert("Download failed. Please try again or save the page using your browser's Save function.");
+          alert(
+            "Download failed. Please try again or save the page using your browser's Save function."
+          );
         }
       }
 
@@ -1895,9 +2140,12 @@
         const toggleBtn = document.querySelector(".hide-buttons-btn");
         container.classList.toggle("hidden");
 
-        // Update button icon
+        // Update button icon, tooltip, and aria-label
         const isHidden = container.classList.contains("hidden");
+        const label = isHidden ? "Show Controls" : "Hide Controls";
         toggleBtn.textContent = isHidden ? "▶" : "◀";
+        toggleBtn.setAttribute("data-tooltip", label);
+        toggleBtn.setAttribute("aria-label", label);
 
         // Save state to localStorage
         localStorage.setItem("buttonsHidden", isHidden);
@@ -1912,8 +2160,12 @@
         if (buttonsHidden) {
           container.classList.add("hidden");
           toggleBtn.textContent = "▶";
+          toggleBtn.setAttribute("data-tooltip", "Show Controls");
+          toggleBtn.setAttribute("aria-label", "Show Controls");
         } else {
           toggleBtn.textContent = "◀";
+          toggleBtn.setAttribute("data-tooltip", "Hide Controls");
+          toggleBtn.setAttribute("aria-label", "Hide Controls");
         }
       }
 
@@ -2037,11 +2289,15 @@
       // Toggle extra time fields
       function toggleExtraTimeFields() {
         const enabled = document.getElementById("extraTimeEnabled").checked;
+        const resetBtn = document.getElementById("resetExtraTimeBtn");
         document.getElementById("extraTimeField").style.display = enabled
           ? "grid"
           : "none";
         if (enabled) {
           updateFormCalculations();
+        } else {
+          // Disable reset button when extra time is disabled
+          if (resetBtn) resetBtn.disabled = true;
         }
       }
 
@@ -2066,7 +2322,7 @@
             document.getElementById("extraTimeEnabled").checked
           ) {
             const autoExtraTime = Math.round(durationMinutes * 0.25);
-            extraTimeInput.placeholder = `Auto: ${autoExtraTime} mins`;
+            extraTimeInput.placeholder = `Auto (25%): ${autoExtraTime} mins`;
             updateExtraFinishFromMinutes();
           } else if (extraTimeInput.value) {
             updateExtraFinishFromMinutes();
@@ -2089,6 +2345,7 @@
         const extraTimeFinishDisplay = document.getElementById(
           "extraTimeFinishDisplay"
         );
+        const resetBtn = document.getElementById("resetExtraTimeBtn");
 
         if (!startTime || durationMinutes === 0) {
           extraTimeFinishDisplay.textContent = "-";
@@ -2100,9 +2357,13 @@
         let extraMinutes;
         if (extraMinutesInput.value) {
           extraMinutes = parseInt(extraMinutesInput.value);
+          // Enable reset button when user has entered a custom value
+          if (resetBtn) resetBtn.disabled = false;
         } else {
           // Use auto-calculated value
           extraMinutes = Math.round(durationMinutes * 0.25);
+          // Disable reset button when using auto calculation
+          if (resetBtn) resetBtn.disabled = true;
         }
 
         const extraFinish = addMinutesToTime(finishTime, extraMinutes);
@@ -2225,6 +2486,10 @@
         document.getElementById("extraTimeField").style.display = "none";
         document.getElementById("finishTimeDisplay").textContent = "-";
         document.getElementById("extraTimeFinishDisplay").textContent = "-";
+
+        // Disable reset button for new exam (using auto calculation)
+        const resetBtn = document.getElementById("resetExtraTimeBtn");
+        if (resetBtn) resetBtn.disabled = true;
 
         // If there are existing exams, pre-populate start time with the most recent exam's start time
         if (exams.length > 0) {
@@ -2416,7 +2681,12 @@
         }
 
         const floatingBtn = document.getElementById("floatingAddBtn");
-        floatingBtn.disabled = exams.length >= MAX_ROWS;
+        const isMaxed = exams.length >= MAX_ROWS;
+        floatingBtn.disabled = isMaxed;
+        floatingBtn.setAttribute(
+          "data-tooltip",
+          isMaxed ? "Maximum 5 exams" : "Add Exam"
+        );
       }
 
       // Close modal when clicking outside
