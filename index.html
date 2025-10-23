@@ -1571,6 +1571,7 @@
 
       // Wake Lock functionality
       let wakeLock = null;
+      let wakeLockEnabled = false; // Track user's intent
 
       async function toggleWakeLock() {
         const btn = document.getElementById('wakeLockBtn');
@@ -1582,26 +1583,30 @@
             return;
           }
 
-          if (wakeLock !== null) {
-            // Release wake lock
-            await wakeLock.release();
-            wakeLock = null;
+          if (wakeLockEnabled) {
+            // User wants to disable wake lock
+            wakeLockEnabled = false;
+            if (wakeLock !== null) {
+              await wakeLock.release();
+              wakeLock = null;
+            }
             btn.classList.remove('active');
             btn.title = 'Keep Screen Awake';
           } else {
-            // Request wake lock
+            // User wants to enable wake lock
+            wakeLockEnabled = true;
             wakeLock = await navigator.wakeLock.request('screen');
             btn.classList.add('active');
             btn.title = 'Screen is staying awake';
 
-            // Handle wake lock release
+            // Handle wake lock release (happens when tab becomes hidden)
             wakeLock.addEventListener('release', () => {
               wakeLock = null;
-              btn.classList.remove('active');
-              btn.title = 'Keep Screen Awake';
+              // Don't change button state - we'll reacquire when visible again
             });
           }
         } catch (err) {
+          wakeLockEnabled = false;
           btn.classList.add('error');
           btn.title = `Wake Lock error: ${err.message}`;
           console.error('Wake Lock error:', err);
@@ -1615,7 +1620,7 @@
       // Reacquire wake lock when page becomes visible again
       document.addEventListener('visibilitychange', async () => {
         const btn = document.getElementById('wakeLockBtn');
-        if (wakeLock !== null && document.visibilityState === 'visible') {
+        if (wakeLockEnabled && document.visibilityState === 'visible') {
           try {
             wakeLock = await navigator.wakeLock.request('screen');
             btn.classList.add('active');
