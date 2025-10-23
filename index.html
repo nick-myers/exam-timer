@@ -327,10 +327,41 @@
         color: white;
       }
 
-      .github-btn {
+      .fullscreen-btn {
         position: fixed;
         bottom: 20px;
         left: 260px;
+        padding: 0;
+        background: white;
+        border: 2px solid #999;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.8rem;
+        transition: all 0.2s;
+        z-index: 10;
+        color: #999;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .fullscreen-btn:hover {
+        transform: scale(1.15);
+      }
+
+      .fullscreen-btn.active {
+        background: #2196f3;
+        border-color: #2196f3;
+        color: white;
+      }
+
+      .github-btn {
+        position: fixed;
+        bottom: 20px;
+        left: 320px;
         padding: 0;
         background: white;
         border: 2px solid #999;
@@ -1232,6 +1263,14 @@
         >
           💡
         </button>
+        <button
+          id="fullscreenBtn"
+          class="fullscreen-btn"
+          onclick="toggleFullscreen()"
+          title="Toggle Fullscreen"
+        >
+          ⛶
+        </button>
         <a
           href="https://github.com/nick-myers/exam-timer"
           target="_blank"
@@ -1670,6 +1709,41 @@
               btn.title = 'Keep Screen Awake';
             }, 3000);
           }
+        }
+      });
+
+      // Fullscreen functionality
+      function toggleFullscreen() {
+        const btn = document.getElementById('fullscreenBtn');
+
+        if (!document.fullscreenElement) {
+          // Enter fullscreen
+          document.documentElement.requestFullscreen().then(() => {
+            btn.classList.add('active');
+            btn.title = 'Exit Fullscreen';
+          }).catch(err => {
+            console.error('Error entering fullscreen:', err);
+          });
+        } else {
+          // Exit fullscreen
+          document.exitFullscreen().then(() => {
+            btn.classList.remove('active');
+            btn.title = 'Toggle Fullscreen';
+          }).catch(err => {
+            console.error('Error exiting fullscreen:', err);
+          });
+        }
+      }
+
+      // Listen for fullscreen changes (e.g., user presses ESC key)
+      document.addEventListener('fullscreenchange', () => {
+        const btn = document.getElementById('fullscreenBtn');
+        if (document.fullscreenElement) {
+          btn.classList.add('active');
+          btn.title = 'Exit Fullscreen';
+        } else {
+          btn.classList.remove('active');
+          btn.title = 'Toggle Fullscreen';
         }
       });
 
