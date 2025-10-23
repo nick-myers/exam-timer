@@ -103,6 +103,7 @@ The application may request one optional permission:
 3. Click **Save Exam**
 
 **Notes:**
+
 - After adding your first exam, subsequent exams will automatically use the same start time (since most exams in a room start together)
 - Maximum of 5 exams can be displayed at once
 - Hover over the disabled + button to see why you can't add more exams
