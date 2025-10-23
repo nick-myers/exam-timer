@@ -1500,7 +1500,6 @@
             <input
               type="checkbox"
               id="extraTimeEnabled"
-              checked
               onchange="toggleExtraTimeFields()"
             />
             <label for="extraTimeEnabled">Enable Extra Time</label>
@@ -2205,8 +2204,8 @@
         editingExamId = null;
         document.getElementById("modalTitle").textContent = "Add Exam";
         document.getElementById("examForm").reset();
-        document.getElementById("extraTimeEnabled").checked = true;
-        document.getElementById("extraTimeField").style.display = "grid";
+        document.getElementById("extraTimeEnabled").checked = false;
+        document.getElementById("extraTimeField").style.display = "none";
         document.getElementById("finishTimeDisplay").textContent = "-";
         document.getElementById("extraTimeFinishDisplay").textContent = "-";
 
