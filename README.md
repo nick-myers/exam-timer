@@ -16,8 +16,13 @@ This is a single HTML file that displays exam information (reference numbers, su
 ## Key Features
 
 - **Large, readable text** - Designed to be visible from across a room
-- **Automatic time calculations** - Calculates finish times including extra time allowances
+- **Adjustable text size** - Built-in zoom controls (50%-200%) with persistent settings
+- **Fullscreen mode** - Maximize screen space for better visibility
+- **Automatic time calculations** - Calculates finish times including extra time allowances (default 25%, customizable)
 - **Screen wake lock** - Prevents the screen from going to sleep or showing screensaver
+- **Collapsible controls** - Hide control buttons for a cleaner display during exams
+- **Sticky table header** - Header remains visible when scrolling through exams
+- **Demo data** - Load Harry Potter themed sample exams to test the application
 - **Offline-first** - Works completely offline once loaded, no internet connection required
 - **No installation needed** - Just open the HTML file in any modern web browser
 - **Private and secure** - All data stays on your device, nothing is sent to external servers
@@ -37,17 +42,26 @@ This is a single HTML file that displays exam information (reference numbers, su
 - Works in any modern browser (Chrome, Firefox, Safari, Edge)
 - Requires JavaScript to be enabled
 - Uses standard Web APIs:
-  - `localStorage` for saving exam data between sessions
+  - `localStorage` for saving exam data, settings, and preferences between sessions
   - Screen Wake Lock API (optional, for preventing screensaver)
+  - Fullscreen API (optional, for fullscreen mode)
 
 ### Data Storage
 
-All exam information (references, subjects, times) is stored in the browser's localStorage on the device. This means:
+All information is stored in the browser's localStorage on the device, including:
+
+- Exam data (references, subjects, times, extra time settings)
+- Centre details (name and number)
+- Color preferences
+- Display preferences (zoom level, control panel visibility)
+
+This means:
 
 - Data never leaves the device
 - Data is specific to that browser on that device
 - Clearing browser data will reset the application
 - No server, database, or cloud storage is involved
+- Use the download button to backup your configuration
 
 ### Permissions
 
@@ -65,35 +79,48 @@ The application may request one optional permission:
 
 ### Configuring Settings
 
-1. Click the **gear icon** (⚙️) in the bottom left corner
+1. Click the **gear icon** (⚙️) in the control panel (bottom left corner)
 2. Update the following if needed:
    - **Centre Name** - Your school/exam centre name
    - **Centre Number** - Your exam centre number
-   - **Primary Color** - Main color for headers
-   - **Secondary Color** - Color for extra time information
-3. Click **Save Settings**
+   - **Primary/Secondary/Accent Colors** - Customize the color scheme
+   - **Demo Data** - Load sample exam data to test the application (only works when no exams exist)
+3. Click **Save Centre Details** to save your changes
+4. Click **Reset to Default** to restore default centre information
 
 ### Adding Exams
 
-1. Click the **+ button** in the bottom left corner
+1. Click the **+ button** in the bottom right corner
 2. Fill in the exam details:
    - **Reference** - Exam board reference (e.g., "EF18/3/81")
    - **Subject** - Exam name (e.g., "MATHS (F)")
    - **Start Time** - When the exam starts (automatically populated after the first exam)
-   - **Finish Time** - When the exam ends
-   - **Extra Time** - Tick if extra time is allowed, specify minutes if different from 25%
+   - **Duration** - Hours and minutes for the exam length (finish time calculated automatically)
+   - **Extra Time** - Enable if extra time is allowed
+     - Leave blank for automatic 25% calculation
+     - Enter custom minutes (1-59) if different
+     - Click "Reset to Auto" button to revert to automatic calculation
 3. Click **Save Exam**
 
-**Note:** After adding your first exam, subsequent exams will automatically use the same start time (since most exams in a room start together). You can change this if needed.
+**Notes:**
+- After adding your first exam, subsequent exams will automatically use the same start time (since most exams in a room start together)
+- Maximum of 5 exams can be displayed at once
+- Hover over the disabled + button to see why you can't add more exams
 
 ### During Exams
 
-- The main screen displays:
-  - Current date and time (top)
-  - Centre name and number (top)
-  - Table of exams with reference, subject, start time, and finish time
-  - Extra time information is shown in color (default: orange/red)
-- The screen will stay awake automatically (green 💡 icon indicates this is active)
+The main screen displays:
+
+- **Live Clock** - Large, always-visible clock showing current time and date at the top of the screen
+- **Centre Information** - Your exam centre name and number (if configured)
+- **Exam Table** - All scheduled exams with:
+  - Reference number
+  - Subject name
+  - Duration (with extra time highlighted in color)
+  - Start time
+  - Finish time (with extra time finish shown separately if applicable)
+- **Color Coding** - Extra time information is highlighted in your configured accent color (default: red)
+- **Auto Wake** - The screen will stay awake automatically (green 💡 icon indicates this is active)
 
 ### Managing Exams
 
@@ -104,33 +131,50 @@ The application may request one optional permission:
 
 ### Display Controls
 
-The application includes several controls in the bottom left corner to help you optimize the display:
+The application includes a control panel in the bottom left corner with several buttons to help you optimize the display:
 
-#### Wake Lock Feature
+#### Show/Hide Controls
 
-The application automatically prevents your screen from going to sleep or showing a screensaver:
+- Click the **◀ button** on the right edge of the control panel to hide all buttons for a cleaner display
+- Click the **▶ button** (when hidden) to show the controls again
+- Control visibility state is saved and restored when you reload the page
 
-- **Green 💡 icon** = Screen will stay awake
-- **Gray 💡 icon** = Screen sleep prevention is off
-- Click the icon to toggle this feature on/off
+#### Settings and Management
 
-#### Fullscreen Mode
+- **⚙ (Settings)** - Open settings to configure centre details, colors, and load demo data
+- **🗑️ (Delete All)** - Remove all exams from the schedule (with confirmation)
 
-Use the fullscreen button (⛶) to expand the display to fill your entire screen:
+#### Display Options
 
-- **Gray ⛶ icon** = Normal windowed mode
-- **Blue ⛶ icon** = Fullscreen mode is active
-- Click the icon to toggle fullscreen on/off
-- Press ESC key to exit fullscreen mode at any time
+- **⛶ (Fullscreen)** - Expand the display to fill your entire screen
+  - Gray icon = Normal windowed mode
+  - Blue icon = Fullscreen mode active
+  - Press ESC key to exit fullscreen at any time
 
 #### Text Size Controls
 
 Adjust the text size to suit your screen and viewing distance:
 
-- **− button** = Decrease text size
-- **100% button** = Shows current zoom level; click to reset to default size
-- **+ button** = Increase text size
-- Changes apply to all text on the screen for better readability
+- **− button** - Decrease text size (minimum 50%)
+- **100% button** - Shows current zoom level; click to reset to default size
+- **+ button** - Increase text size (maximum 200%)
+- Changes apply to all text and images on the screen
+- Zoom level is saved and persists across page reloads
+- Table header remains sticky when content scrolls
+
+#### Keep Awake Feature
+
+The application automatically prevents your screen from going to sleep:
+
+- **Green 💡 icon** - Screen will stay awake
+- **Gray 💡 icon** - Screen sleep prevention is off
+- Click the icon to toggle this feature on/off
+
+#### Quick Links
+
+- **💾 (Download)** - Download the HTML file with your current exam data as backup
+- **🌐 (Website)** - Open the hosted version at nick-myers.github.io/exam-timer
+- **GitHub icon** - View the source code repository
 
 ## Troubleshooting
 
@@ -152,8 +196,23 @@ Adjust the text size to suit your screen and viewing distance:
 
 ### Q: Text is too small/large
 
-- The text size is responsive and adjusts to screen size automatically
-- Try full-screen mode (usually F11 key) or adjust your browser zoom (Ctrl/Cmd +/-)
+- Use the built-in zoom controls (− and + buttons) in the control panel
+- The text size is also responsive and adjusts to screen size automatically
+- Try fullscreen mode for a larger display area
+- Your zoom preference is saved automatically
+
+### Q: I can't add more exams
+
+- The application supports a maximum of 5 exams at once
+- Hover over the disabled + button to see the "Maximum 5 exams" message
+- Delete one or more exams to add new ones
+
+### Q: How do I try out the application without adding real exam data?
+
+- Open Settings (⚙ icon)
+- Click "Load Demo Data" button
+- This will load 5 Harry Potter themed sample exams
+- Demo data can only be loaded when no exams exist (delete all exams first if needed)
 
 ## Technical Details (For IT Staff)
 
