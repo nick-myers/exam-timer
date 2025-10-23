@@ -1712,17 +1712,34 @@
       }
 
       // Download HTML file
-      function downloadHTML() {
-        const htmlContent = document.documentElement.outerHTML;
-        const blob = new Blob([htmlContent], { type: "text/html" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "exam-timer.html";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+      async function downloadHTML() {
+        let htmlContent;
+
+        try {
+          // Try to fetch the original HTML file to avoid browser-injected content
+          // This works when served over HTTP/HTTPS
+          const response = await fetch(window.location.href);
+          htmlContent = await response.text();
+        } catch (err) {
+          // Fallback to DOM method if fetch fails (e.g., file:// protocol)
+          console.log("Fetch failed, using DOM fallback:", err);
+          htmlContent = document.documentElement.outerHTML;
+        }
+
+        try {
+          const blob = new Blob([htmlContent], { type: "text/html" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "exam-timer.html";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        } catch (err) {
+          console.error("Download failed:", err);
+          alert("Download failed. Please try again or save the page using your browser's Save function.");
+        }
       }
 
       // Delete all exams
