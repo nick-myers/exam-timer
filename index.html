@@ -212,88 +212,115 @@
         display: flex;
       }
 
-      .settings-btn {
+      /* Button container for collapsing */
+      .button-container {
         position: fixed;
-        bottom: 20px;
-        left: 20px;
-        padding: 0;
+        bottom: 10px;
+        left: 10px;
         background: white;
         border: 2px solid #999;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.8rem;
-        transition: transform 0.2s;
+        border-radius: 12px;
+        padding: 10px;
+        transition: transform 0.3s ease-in-out;
         z-index: 10;
-        color: #999;
-        width: 50px;
-        height: 50px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
         display: flex;
         align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        gap: 10px;
+        overflow: visible;
       }
 
-      .settings-btn:hover {
-        transform: scale(1.15);
-        color: #666;
+      .button-container.hidden {
+        transform: translateX(calc(-100% + 70px));
       }
 
-      .download-btn {
-        position: fixed;
-        bottom: 20px;
-        left: 80px;
-        padding: 0;
-        background: white;
-        border: 2px solid #999;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.8rem;
-        transition: transform 0.2s;
-        z-index: 10;
-        color: #999;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      /* Spacer for button groups */
+      .button-spacer {
+        width: 1px;
+        height: 40px;
+        background: #ddd;
+        flex-shrink: 0;
       }
 
-      .download-btn:hover {
-        transform: scale(1.15);
-        color: #666;
+      /* Tooltips for buttons */
+      .button-container [data-tooltip] {
+        position: relative;
       }
 
-      .delete-all-btn {
-        position: fixed;
-        bottom: 20px;
-        left: 140px;
-        padding: 0;
-        background: white;
-        border: 2px solid #999;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.8rem;
-        transition: transform 0.2s;
-        z-index: 10;
-        color: #999;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      .button-container [data-tooltip]::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 14px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #000;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: normal;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0s;
+        z-index: 1001;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
 
-      .delete-all-btn:hover {
-        transform: scale(1.15);
-        color: #d32f2f;
+      .button-container [data-tooltip]::after {
+        content: "";
+        position: absolute;
+        bottom: calc(100% + 7px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #000;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0s;
+        z-index: 1000;
       }
 
-      .wake-lock-btn {
-        position: fixed;
-        bottom: 20px;
-        left: 200px;
+      .button-container [data-tooltip]:hover::before,
+      .button-container [data-tooltip]:hover::after {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.15s ease-out 0.3s, visibility 0s 0.3s;
+      }
+
+      /* Fixed bottom buttons - prevent zoom scaling */
+      .settings-btn,
+      .download-btn,
+      .delete-all-btn,
+      .wake-lock-btn,
+      .fullscreen-btn,
+      .github-btn,
+      .zoom-btn {
+        font-size: 28.8px !important; /* 1.8rem at 100% = 28.8px */
+      }
+
+      .zoom-reset-btn {
+        font-size: 16px !important; /* 1rem at 100% = 16px */
+      }
+
+      /* Button styles - now positioned within container */
+      .button-container .settings-btn,
+      .button-container .download-btn,
+      .button-container .delete-all-btn,
+      .button-container .wake-lock-btn,
+      .button-container .fullscreen-btn,
+      .button-container .github-btn,
+      .button-container .zoom-btn,
+      .button-container .hide-buttons-btn {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
         padding: 0;
         background: white;
         border: 2px solid #999;
@@ -301,90 +328,90 @@
         cursor: pointer;
         font-size: 1.8rem;
         transition: all 0.2s;
-        z-index: 10;
-        color: #999;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .wake-lock-btn:hover {
-        transform: scale(1.15);
-      }
-
-      .wake-lock-btn.active {
-        background: #4caf50;
-        border-color: #4caf50;
-        color: white;
-      }
-
-      .wake-lock-btn.error {
-        background: #ff9800;
-        border-color: #ff9800;
-        color: white;
-      }
-
-      .fullscreen-btn {
-        position: fixed;
-        bottom: 20px;
-        left: 260px;
-        padding: 0;
-        background: white;
-        border: 2px solid #999;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.8rem;
-        transition: all 0.2s;
-        z-index: 10;
-        color: #999;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .fullscreen-btn:hover {
-        transform: scale(1.15);
-      }
-
-      .fullscreen-btn.active {
-        background: #2196f3;
-        border-color: #2196f3;
-        color: white;
-      }
-
-      .github-btn {
-        position: fixed;
-        bottom: 20px;
-        left: 320px;
-        padding: 0;
-        background: white;
-        border: 2px solid #999;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.8rem;
-        transition: all 0.2s;
-        z-index: 10;
         color: #333;
         width: 50px;
         height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        text-decoration: none;
+        box-shadow: none;
+        flex-shrink: 0;
       }
 
-      .github-btn:hover {
-        transform: scale(1.15);
+      .button-container .settings-btn,
+      .button-container .delete-all-btn {
+        color: #999;
+      }
+
+      .button-container .settings-btn:hover,
+      .button-container .download-btn:hover,
+      .button-container .delete-all-btn:hover,
+      .button-container .wake-lock-btn:hover,
+      .button-container .fullscreen-btn:hover,
+      .button-container .github-btn:hover,
+      .button-container .zoom-btn:hover {
+        transform: scale(1.1);
+        background: #f5f5f5;
+      }
+
+      .button-container .delete-all-btn:hover {
+        color: #d32f2f;
+      }
+
+      .button-container .github-btn:hover {
         background: #333;
         border-color: #333;
         color: white;
+      }
+
+      .wake-lock-btn.active {
+        background: #4caf50 !important;
+        border-color: #4caf50 !important;
+        color: white !important;
+      }
+
+      .wake-lock-btn.error {
+        background: #ff9800 !important;
+        border-color: #ff9800 !important;
+        color: white !important;
+      }
+
+      .fullscreen-btn.active {
+        background: #2196f3 !important;
+        border-color: #2196f3 !important;
+        color: white !important;
+      }
+
+      .zoom-reset-btn {
+        font-size: 1rem !important;
+        font-weight: 600;
+      }
+
+      .hide-buttons-btn {
+        position: relative !important;
+        background: #f9f9f9 !important;
+        border: none !important;
+        border-left: 1px solid #ddd !important;
+        border-radius: 0 10px 10px 0 !important;
+        color: #666 !important;
+        box-shadow: none !important;
+        margin: -10px -10px -10px 10px !important;
+        padding: 0 20px !important;
+        width: auto !important;
+        min-width: 50px !important;
+        height: auto !important;
+        align-self: stretch !important;
+        font-size: 1.3rem !important;
+        transition: all 0.2s !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+      }
+
+      .hide-buttons-btn:hover {
+        background: #efefef !important;
+        color: #333 !important;
       }
 
       /* Header */
@@ -397,6 +424,7 @@
         border-bottom: none;
         flex-shrink: 0;
         gap: 15px;
+        flex-wrap: wrap;
       }
 
       .header-logo {
@@ -407,7 +435,7 @@
       }
 
       .header-logo img {
-        height: 100px;
+        height: 6.25rem;
         width: auto;
         display: block;
       }
@@ -439,7 +467,7 @@
 
       .header-right {
         flex: 1;
-        min-width: 0;
+        min-width: fit-content;
         display: flex;
         justify-content: center;
       }
@@ -503,6 +531,7 @@
         color: #000;
         font-variant-numeric: tabular-nums;
         line-height: 1;
+        white-space: nowrap;
       }
 
       /* Table */
@@ -683,6 +712,11 @@
         padding: 40px;
         color: #999;
         font-size: 1.3rem;
+        cursor: default;
+      }
+
+      .empty-row:hover {
+        background-color: transparent;
       }
 
       /* Modal */
@@ -947,7 +981,7 @@
 
       @media (max-width: 1400px) {
         .header-logo img {
-          height: 100px;
+          height: 6.25rem;
         }
         .centre-label {
           font-size: 1.3rem;
@@ -962,7 +996,7 @@
 
       @media (max-width: 1024px) {
         .header-logo img {
-          height: 90px;
+          height: 5.625rem;
         }
         .centre-label {
           font-size: 1.1rem;
@@ -992,7 +1026,7 @@
           align-self: center;
         }
         .header-logo img {
-          height: 70px;
+          height: 4.375rem;
         }
         .header-left {
           text-align: center;
@@ -1238,50 +1272,113 @@
 
       <!-- Main Application -->
       <div class="main-app" id="mainApp">
-        <button class="settings-btn" onclick="openSettings()" title="Settings">
-          ⚙
-        </button>
-        <button
-          class="download-btn"
-          onclick="downloadHTML()"
-          title="Download HTML"
-        >
-          💾
-        </button>
-        <button
-          class="delete-all-btn"
-          onclick="deleteAllExams()"
-          title="Delete All Exams"
-        >
-          🗑
-        </button>
-        <button
-          id="wakeLockBtn"
-          class="wake-lock-btn"
-          onclick="toggleWakeLock()"
-          title="Keep Screen Awake"
-        >
-          💡
-        </button>
-        <button
-          id="fullscreenBtn"
-          class="fullscreen-btn"
-          onclick="toggleFullscreen()"
-          title="Toggle Fullscreen"
-        >
-          ⛶
-        </button>
-        <a
-          href="https://github.com/nick-myers/exam-timer"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="github-btn"
-          title="View on GitHub"
-        >
-          <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-          </svg>
-        </a>
+        <!-- Button Container -->
+        <div class="button-container" id="buttonContainer">
+          <!-- Settings and Delete -->
+          <button
+            class="settings-btn"
+            onclick="openSettings()"
+            data-tooltip="Settings"
+          >
+            ⚙
+          </button>
+          <button
+            class="delete-all-btn"
+            onclick="deleteAllExams()"
+            data-tooltip="Delete All Exams"
+          >
+            🗑
+          </button>
+
+          <div class="button-spacer"></div>
+
+          <!-- Fullscreen -->
+          <button
+            id="fullscreenBtn"
+            class="fullscreen-btn"
+            onclick="toggleFullscreen()"
+            data-tooltip="Toggle Fullscreen"
+          >
+            ⛶
+          </button>
+
+          <div class="button-spacer"></div>
+
+          <!-- Zoom Controls -->
+          <button
+            id="zoomOutBtn"
+            class="zoom-btn zoom-out-btn"
+            onclick="zoomOut()"
+            data-tooltip="Zoom Out"
+          >
+            −
+          </button>
+          <button
+            id="zoomResetBtn"
+            class="zoom-btn zoom-reset-btn"
+            onclick="resetZoom()"
+            data-tooltip="Reset Zoom"
+          >
+            100%
+          </button>
+          <button
+            id="zoomInBtn"
+            class="zoom-btn zoom-in-btn"
+            onclick="zoomIn()"
+            data-tooltip="Zoom In"
+          >
+            +
+          </button>
+
+          <div class="button-spacer"></div>
+
+          <!-- Wake Lock -->
+          <button
+            id="wakeLockBtn"
+            class="wake-lock-btn"
+            onclick="toggleWakeLock()"
+            data-tooltip="Keep Screen Awake"
+          >
+            💡
+          </button>
+
+          <div class="button-spacer"></div>
+
+          <!-- Download (Save) -->
+          <button
+            class="download-btn"
+            onclick="downloadHTML()"
+            data-tooltip="Download HTML"
+          >
+            💾
+          </button>
+
+          <div class="button-spacer"></div>
+
+          <!-- GitHub -->
+          <a
+            href="https://github.com/nick-myers/exam-timer"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="github-btn"
+            data-tooltip="View on GitHub"
+          >
+            <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor">
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+              />
+            </svg>
+          </a>
+
+          <!-- Hide/Show Tab -->
+          <button
+            class="hide-buttons-btn"
+            onclick="toggleButtons()"
+            data-tooltip="Hide Controls"
+          >
+            ◀
+          </button>
+        </div>
 
         <div class="header">
           <div class="header-logo">
@@ -1636,7 +1733,11 @@
           return;
         }
 
-        const confirmed = confirm(`Are you sure you want to delete all ${exams.length} exam${exams.length > 1 ? 's' : ''}? This action cannot be undone.`);
+        const confirmed = confirm(
+          `Are you sure you want to delete all ${exams.length} exam${
+            exams.length > 1 ? "s" : ""
+          }? This action cannot be undone.`
+        );
         if (confirmed) {
           exams = [];
           saveExams();
@@ -1649,12 +1750,11 @@
       let wakeLockEnabled = false; // Track user's intent
 
       async function toggleWakeLock() {
-        const btn = document.getElementById('wakeLockBtn');
+        const btn = document.getElementById("wakeLockBtn");
 
         try {
-          if (!('wakeLock' in navigator)) {
-            btn.classList.add('error');
-            btn.title = 'Wake Lock not supported in this browser';
+          if (!("wakeLock" in navigator)) {
+            btn.classList.add("error");
             return;
           }
 
@@ -1665,48 +1765,41 @@
               await wakeLock.release();
               wakeLock = null;
             }
-            btn.classList.remove('active');
-            btn.title = 'Keep Screen Awake';
+            btn.classList.remove("active");
           } else {
             // User wants to enable wake lock
             wakeLockEnabled = true;
-            wakeLock = await navigator.wakeLock.request('screen');
-            btn.classList.add('active');
-            btn.title = 'Screen is staying awake';
+            wakeLock = await navigator.wakeLock.request("screen");
+            btn.classList.add("active");
 
             // Handle wake lock release (happens when tab becomes hidden)
-            wakeLock.addEventListener('release', () => {
+            wakeLock.addEventListener("release", () => {
               wakeLock = null;
               // Don't change button state - we'll reacquire when visible again
             });
           }
         } catch (err) {
           wakeLockEnabled = false;
-          btn.classList.add('error');
-          btn.title = `Wake Lock error: ${err.message}`;
-          console.error('Wake Lock error:', err);
+          btn.classList.add("error");
+          console.error("Wake Lock error:", err);
           setTimeout(() => {
-            btn.classList.remove('error');
-            btn.title = 'Keep Screen Awake';
+            btn.classList.remove("error");
           }, 3000);
         }
       }
 
       // Reacquire wake lock when page becomes visible again
-      document.addEventListener('visibilitychange', async () => {
-        const btn = document.getElementById('wakeLockBtn');
-        if (wakeLockEnabled && document.visibilityState === 'visible') {
+      document.addEventListener("visibilitychange", async () => {
+        const btn = document.getElementById("wakeLockBtn");
+        if (wakeLockEnabled && document.visibilityState === "visible") {
           try {
-            wakeLock = await navigator.wakeLock.request('screen');
-            btn.classList.add('active');
-            btn.title = 'Screen is staying awake';
+            wakeLock = await navigator.wakeLock.request("screen");
+            btn.classList.add("active");
           } catch (err) {
-            console.error('Failed to reacquire wake lock:', err);
-            btn.classList.add('error');
-            btn.title = 'Wake Lock error';
+            console.error("Failed to reacquire wake lock:", err);
+            btn.classList.add("error");
             setTimeout(() => {
-              btn.classList.remove('error');
-              btn.title = 'Keep Screen Awake';
+              btn.classList.remove("error");
             }, 3000);
           }
         }
@@ -1714,38 +1807,125 @@
 
       // Fullscreen functionality
       function toggleFullscreen() {
-        const btn = document.getElementById('fullscreenBtn');
+        const btn = document.getElementById("fullscreenBtn");
 
         if (!document.fullscreenElement) {
           // Enter fullscreen
-          document.documentElement.requestFullscreen().then(() => {
-            btn.classList.add('active');
-            btn.title = 'Exit Fullscreen';
-          }).catch(err => {
-            console.error('Error entering fullscreen:', err);
-          });
+          document.documentElement
+            .requestFullscreen()
+            .then(() => {
+              btn.classList.add("active");
+            })
+            .catch((err) => {
+              console.error("Error entering fullscreen:", err);
+            });
         } else {
           // Exit fullscreen
-          document.exitFullscreen().then(() => {
-            btn.classList.remove('active');
-            btn.title = 'Toggle Fullscreen';
-          }).catch(err => {
-            console.error('Error exiting fullscreen:', err);
-          });
+          document
+            .exitFullscreen()
+            .then(() => {
+              btn.classList.remove("active");
+            })
+            .catch((err) => {
+              console.error("Error exiting fullscreen:", err);
+            });
         }
       }
 
       // Listen for fullscreen changes (e.g., user presses ESC key)
-      document.addEventListener('fullscreenchange', () => {
-        const btn = document.getElementById('fullscreenBtn');
+      document.addEventListener("fullscreenchange", () => {
+        const btn = document.getElementById("fullscreenBtn");
         if (document.fullscreenElement) {
-          btn.classList.add('active');
-          btn.title = 'Exit Fullscreen';
+          btn.classList.add("active");
         } else {
-          btn.classList.remove('active');
-          btn.title = 'Toggle Fullscreen';
+          btn.classList.remove("active");
         }
       });
+
+      // Zoom functionality
+      let currentZoom = parseInt(localStorage.getItem("zoomLevel")) || 100;
+
+      function updateZoom() {
+        document.documentElement.style.fontSize = `${currentZoom}%`;
+        document.getElementById("zoomResetBtn").textContent = `${currentZoom}%`;
+        localStorage.setItem("zoomLevel", currentZoom);
+      }
+
+      function zoomOut() {
+        if (currentZoom > 50) {
+          currentZoom -= 10;
+          updateZoom();
+        }
+      }
+
+      function zoomIn() {
+        if (currentZoom < 200) {
+          currentZoom += 10;
+          updateZoom();
+        }
+      }
+
+      function resetZoom() {
+        currentZoom = 100;
+        updateZoom();
+      }
+
+      // Apply saved zoom level on page load
+      updateZoom();
+
+      // Toggle buttons visibility
+      function toggleButtons() {
+        const container = document.getElementById("buttonContainer");
+        const toggleBtn = document.querySelector(".hide-buttons-btn");
+        container.classList.toggle("hidden");
+
+        // Update button icon
+        const isHidden = container.classList.contains("hidden");
+        toggleBtn.textContent = isHidden ? "▶" : "◀";
+
+        // Save state to localStorage
+        localStorage.setItem("buttonsHidden", isHidden);
+      }
+
+      // Restore button visibility state on page load
+      function restoreButtonVisibility() {
+        const buttonsHidden = localStorage.getItem("buttonsHidden") === "true";
+        const container = document.getElementById("buttonContainer");
+        const toggleBtn = document.querySelector(".hide-buttons-btn");
+
+        if (buttonsHidden) {
+          container.classList.add("hidden");
+          toggleBtn.textContent = "▶";
+        } else {
+          toggleBtn.textContent = "◀";
+        }
+      }
+
+      // Call on page load
+      restoreButtonVisibility();
+
+      // Disable browser tooltips for elements with data-tooltip
+      function disableBrowserTooltips() {
+        document.querySelectorAll("[data-tooltip]").forEach((element) => {
+          element.removeAttribute("title");
+        });
+      }
+
+      disableBrowserTooltips();
+
+      // Watch for changes to wake lock button title
+      const wakeLockBtn = document.getElementById("wakeLockBtn");
+      if (wakeLockBtn) {
+        const observer = new MutationObserver(() => {
+          if (wakeLockBtn.hasAttribute("title")) {
+            wakeLockBtn.removeAttribute("title");
+          }
+        });
+        observer.observe(wakeLockBtn, {
+          attributes: true,
+          attributeFilter: ["title"],
+        });
+      }
 
       // Open settings
       function openSettings() {

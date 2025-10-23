@@ -102,13 +102,35 @@ The application may request one optional permission:
 - **Delete all exams** - Click the 🗑️ icon in the bottom left corner
 - **Download/backup** - Click the 💾 icon to download your exam schedule as a JSON file
 
-### Wake Lock Feature
+### Display Controls
+
+The application includes several controls in the bottom left corner to help you optimize the display:
+
+#### Wake Lock Feature
 
 The application automatically prevents your screen from going to sleep or showing a screensaver:
 
 - **Green 💡 icon** = Screen will stay awake
 - **Gray 💡 icon** = Screen sleep prevention is off
 - Click the icon to toggle this feature on/off
+
+#### Fullscreen Mode
+
+Use the fullscreen button (⛶) to expand the display to fill your entire screen:
+
+- **Gray ⛶ icon** = Normal windowed mode
+- **Blue ⛶ icon** = Fullscreen mode is active
+- Click the icon to toggle fullscreen on/off
+- Press ESC key to exit fullscreen mode at any time
+
+#### Text Size Controls
+
+Adjust the text size to suit your screen and viewing distance:
+
+- **− button** = Decrease text size
+- **100% button** = Shows current zoom level; click to reset to default size
+- **+ button** = Increase text size
+- Changes apply to all text on the screen for better readability
 
 ## Troubleshooting
 
