@@ -4,7 +4,12 @@ A simple, safe, and offline-friendly exam timer designed for displaying exam sch
 
 ## What is this?
 
-This is a single HTML file that displays exam information (reference numbers, subject names, start times, and finish times) in a large, easy-to-read format. It's designed to be displayed on a screen or projector in exam rooms so students and invigilators can quickly see when exams start and finish.
+This is a single HTML file that displays exam information (reference numbers, subject names, clock, start times, and finish times) in a large, easy-to-read format. It's designed to be displayed on a screen or projector in exam rooms so students and invigilators can quickly see when exams start and finish.
+
+## How to use
+
+- Access via <https://nick-myers.github.io/exam-timer/>
+- Download the `index.html` and open it in a Web Browser
 
 ## Key Features
 
