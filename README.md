@@ -10,6 +10,8 @@ This is a single HTML file that displays exam information (reference numbers, su
 
 - Access via <https://nick-myers.github.io/exam-timer/>
 - Download the `index.html` and open it in a Web Browser
+  - You can download this by accessing the file via <https://nick-myers.github.io/exam-timer/> and clicking the download button (💾), or,
+  - Download it from this project by going to <https://github.com/nick-myers/exam-timer/blob/main/index.html> and clicking Download raw file
 
 ## Key Features
 
