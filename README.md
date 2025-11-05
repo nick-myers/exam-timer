@@ -19,10 +19,14 @@ This is a single HTML file that displays exam information (reference numbers, su
 - **Adjustable text size** - Built-in zoom controls (50%-200%) with persistent settings
 - **Fullscreen mode** - Maximize screen space for better visibility
 - **Automatic time calculations** - Calculates finish times including extra time allowances (default 25%, customizable)
+- **Bulk time updates** - Set start time for all exams at once with a single click
+- **Configurable exam limit** - Adjust maximum number of exams (1-12) to suit your needs
 - **Screen wake lock** - Prevents the screen from going to sleep or showing screensaver
 - **Collapsible controls** - Hide control buttons for a cleaner display during exams
+- **Compact toolbar** - All controls in one organized, space-efficient toolbar
 - **Sticky table header** - Header remains visible when scrolling through exams
 - **Demo data** - Load Harry Potter themed sample exams to test the application
+- **Changelog** - Track all updates and improvements to the application
 - **Offline-first** - Works completely offline once loaded, no internet connection required
 - **No installation needed** - Just open the HTML file in any modern web browser
 - **Private and secure** - All data stays on your device, nothing is sent to external servers
@@ -79,18 +83,20 @@ The application may request one optional permission:
 
 ### Configuring Settings
 
-1. Click the **gear icon** (⚙️) in the control panel (bottom left corner)
+1. Click the **gear icon** (⚙️) in the toolbar (bottom left corner)
 2. Update the following if needed:
    - **Centre Name** - Your school/exam centre name
    - **Centre Number** - Your exam centre number
    - **Primary/Secondary/Accent Colors** - Customize the color scheme
+   - **Maximum Exams** - Set the maximum number of exams (1-12, default is 6)
    - **Demo Data** - Load sample exam data to test the application (only works when no exams exist)
-3. Click **Save Centre Details** to save your changes
-4. Click **Reset to Default** to restore default centre information
+3. Click **Save Centre Details** or **Save Maximum Exams** to save your changes
+4. Click **Reset to Default** to restore default settings
+5. Press **Escape** to close the settings dialog
 
 ### Adding Exams
 
-1. Click the **+ button** in the bottom right corner
+1. Click the **+ button** in the toolbar (bottom left corner)
 2. Fill in the exam details:
    - **Reference** - Exam board reference (e.g., "EF18/3/81")
    - **Subject** - Exam name (e.g., "MATHS (F)")
@@ -105,8 +111,17 @@ The application may request one optional permission:
 **Notes:**
 
 - After adding your first exam, subsequent exams will automatically use the same start time (since most exams in a room start together)
-- Maximum of 5 exams can be displayed at once
+- Maximum number of exams is configurable in settings (default is 6, range 1-12)
 - Hover over the disabled + button to see why you can't add more exams
+
+### Updating Exam Times
+
+If you need to change the start time for all exams at once:
+
+1. Click the **🕐 (clock) button** in the toolbar
+2. Enter the new start time
+3. Click **Set start for all exams**
+4. All exam start and finish times will be updated while preserving their durations
 
 ### During Exams
 
@@ -132,7 +147,7 @@ The main screen displays:
 
 ### Display Controls
 
-The application includes a control panel in the bottom left corner with several buttons to help you optimize the display:
+The application includes a compact toolbar in the bottom left corner with several buttons to help you optimize the display. All buttons are organized in a single row for easy access.
 
 #### Show/Hide Controls
 
@@ -142,8 +157,9 @@ The application includes a control panel in the bottom left corner with several 
 
 #### Settings and Management
 
-- **⚙ (Settings)** - Open settings to configure centre details, colors, and load demo data
+- **⚙ (Settings)** - Open settings to configure centre details, colors, maximum exams, and load demo data
 - **🗑️ (Delete All)** - Remove all exams from the schedule (with confirmation)
+- **🕐 (Set Start Time)** - Update the start time for all exams at once while preserving durations
 
 #### Display Options
 
@@ -176,6 +192,7 @@ The application automatically prevents your screen from going to sleep:
 - **💾 (Download)** - Download the HTML file with your current exam data as backup
 - **🌐 (Website)** - Open the hosted version at nick-myers.github.io/exam-timer
 - **GitHub icon** - View the source code repository
+- **📋 (Changelog)** - View version history and all updates to the application
 
 ## Troubleshooting
 
@@ -204,16 +221,22 @@ The application automatically prevents your screen from going to sleep:
 
 ### Q: I can't add more exams
 
-- The application supports a maximum of 5 exams at once
-- Hover over the disabled + button to see the "Maximum 5 exams" message
-- Delete one or more exams to add new ones
+- The application has a configurable maximum number of exams (default is 6)
+- Hover over the disabled + button to see the maximum exams message
+- You can increase the limit in Settings (⚙️) up to 12 exams
+- Or delete one or more exams to add new ones
 
 ### Q: How do I try out the application without adding real exam data?
 
 - Open Settings (⚙ icon)
 - Click "Load Demo Data" button
-- This will load 5 Harry Potter themed sample exams
+- This will load 6 Harry Potter themed sample exams
 - Demo data can only be loaded when no exams exist (delete all exams first if needed)
+
+### Q: What's new in the latest version?
+
+- Click the **📋 (Changelog)** button in the toolbar to view all updates and improvements
+- The changelog lists all features added in each version with user-friendly descriptions
 
 ## Technical Details (For IT Staff)
 

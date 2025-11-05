@@ -244,29 +244,29 @@
       /* Button container for collapsing */
       .button-container {
         position: fixed;
-        bottom: 10px;
-        left: 10px;
+        bottom: 5px;
+        left: 5px;
         background: white;
         border: 2px solid #999;
         border-radius: 12px;
-        padding: 10px;
+        padding: 8px;
         transition: transform 0.3s ease-in-out;
         z-index: 10;
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         overflow: visible;
       }
 
       .button-container.hidden {
-        transform: translateX(calc(-100% + 70px));
+        transform: translateX(calc(-100% + 24px));
       }
 
       /* Spacer for button groups */
       .button-spacer {
         width: 1px;
-        height: 40px;
+        height: 32px;
         background: #ddd;
         flex-shrink: 0;
       }
@@ -322,14 +322,46 @@
         transition: opacity 0.15s ease-out 0.3s, visibility 0s 0.3s;
       }
 
+      /* Show Controls tooltip - position to the right */
+      .hide-buttons-btn[data-tooltip]::before {
+        left: auto;
+        right: auto;
+        bottom: auto;
+        top: 50%;
+        left: calc(100% + 14px);
+        transform: translateY(-50%);
+      }
+
+      .hide-buttons-btn[data-tooltip]::after {
+        left: auto;
+        right: auto;
+        bottom: auto;
+        top: 50%;
+        left: calc(100% + 6px);
+        transform: translateY(-50%);
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 8px solid #000;
+        border-left: none;
+      }
+
+      /* Disable tooltip when no-tooltip class is present */
+      .no-tooltip[data-tooltip]:hover::before,
+      .no-tooltip[data-tooltip]:hover::after {
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+
       /* Fixed bottom buttons - prevent zoom scaling */
       .settings-btn,
       .download-btn,
       .delete-all-btn,
+      .set-start-btn,
       .wake-lock-btn,
       .fullscreen-btn,
       .github-btn,
       .website-btn,
+      .changelog-btn,
       .zoom-btn {
         font-size: 28.8px !important; /* 1.8rem at 100% = 28.8px */
       }
@@ -342,12 +374,15 @@
       .button-container .settings-btn,
       .button-container .download-btn,
       .button-container .delete-all-btn,
+      .button-container .set-start-btn,
       .button-container .wake-lock-btn,
       .button-container .fullscreen-btn,
       .button-container .github-btn,
       .button-container .website-btn,
+      .button-container .changelog-btn,
       .button-container .zoom-btn,
-      .button-container .hide-buttons-btn {
+      .button-container .hide-buttons-btn,
+      .button-container .add-exam-btn {
         position: relative;
         bottom: auto;
         left: auto;
@@ -357,11 +392,11 @@
         border: 2px solid #999;
         border-radius: 50%;
         cursor: pointer;
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         transition: all 0.2s;
         color: #333;
-        width: 50px;
-        height: 50px;
+        width: 42px;
+        height: 42px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -430,16 +465,16 @@
         background: #f9f9f9 !important;
         border: none !important;
         border-left: 1px solid #ddd !important;
-        border-radius: 0 10px 10px 0 !important;
+        border-radius: 0 8px 8px 0 !important;
         color: #666 !important;
         box-shadow: none !important;
-        margin: -10px -10px -10px 10px !important;
-        padding: 0 20px !important;
+        margin: -8px -8px -8px 4px !important;
+        padding: 0 6px !important;
         width: auto !important;
-        min-width: 50px !important;
+        min-width: 22px !important;
         height: auto !important;
         align-self: stretch !important;
-        font-size: 1.3rem !important;
+        font-size: 0.9rem !important;
         transition: all 0.2s !important;
         display: flex !important;
         align-items: center !important;
@@ -457,12 +492,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 5px;
-        padding: 8px 20px 5px 20px;
+        margin-bottom: 3px;
+        padding: 5px 15px 3px 15px;
         border-bottom: none;
         flex-shrink: 0;
-        gap: 15px;
-        flex-wrap: wrap;
+        gap: 10px;
+        flex-wrap: nowrap;
       }
 
       .header-logo {
@@ -473,7 +508,7 @@
       }
 
       .header-logo img {
-        height: 6.25rem;
+        height: 4.5rem;
         width: auto;
         display: block;
       }
@@ -511,13 +546,13 @@
       }
 
       .centre-label {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 600;
         color: #333;
         line-height: 1.1;
         text-transform: uppercase;
+        display: block;
         letter-spacing: 0.5px;
-        white-space: nowrap;
         text-align: right;
       }
 
@@ -526,18 +561,19 @@
       }
 
       .centre-name {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
         font-weight: 600;
         color: #333;
-        line-height: 1.1;
+        line-height: 1.2;
         text-align: left;
+        word-wrap: break-word;
       }
 
       .centre-number {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
         font-weight: 600;
         color: #333;
-        line-height: 1.1;
+        line-height: 1.2;
         text-align: left;
       }
 
@@ -549,22 +585,27 @@
         text-align: center;
       }
 
-      .date-day {
-        font-size: 2rem;
+      .date-compact-line1,
+      .date-compact-line2,
+      .date-compact-line3 {
+        font-size: 1.5rem;
         font-weight: 600;
         color: #333;
         line-height: 1.1;
+        white-space: nowrap;
       }
 
-      .date-full {
-        font-size: 2rem;
+      .date-full-responsive {
+        font-size: 1.5rem;
         font-weight: 600;
         color: #333;
         line-height: 1.1;
+        white-space: normal;
+        word-wrap: break-word;
       }
 
       .header .clock {
-        font-size: 4.8rem;
+        font-size: 3.5rem;
         font-weight: bold;
         color: #000;
         font-variant-numeric: tabular-nums;
@@ -585,7 +626,7 @@
         width: 100%;
         border-collapse: collapse;
         font-size: 1.5rem;
-        table-layout: fixed;
+        table-layout: auto;
       }
 
       thead {
@@ -601,29 +642,24 @@
       }
 
       th {
-        padding: 12px 15px;
+        padding: 6px 12px;
         text-align: left;
         font-weight: 600;
-        font-size: 2rem;
+        font-size: 1.5rem;
         white-space: nowrap;
         background: inherit;
       }
 
       th:nth-child(1) {
-        width: 15%;
-        text-align: center;
-      } /* Ref */
-      th:nth-child(2) {
-        width: 52%;
+        width: auto;
+        text-align: left;
       } /* Exam Details */
+      th:nth-child(2),
       th:nth-child(3) {
-        width: 13%;
-        text-align: center;
-      } /* Start Time */
-      th:nth-child(4) {
-        width: 20%;
-        text-align: center;
-      } /* Finish Time */
+        width: 1%;
+        text-align: right;
+        white-space: nowrap;
+      } /* Start and Finish */
 
       tbody {
         background: white;
@@ -645,157 +681,90 @@
       }
 
       td {
-        padding: 15px 15px;
-        vertical-align: top;
+        padding: 6px 8px;
+        vertical-align: middle;
         position: relative;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #333;
+        line-height: 1.2;
+      }
+
+      td:nth-child(1) {
+        /* Exam details column */
+        max-width: 700px;
+        overflow: visible;
+        padding: 6px 8px;
+        vertical-align: top;
+      }
+
+      .exam-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.3em;
+      }
+
+      .exam-ref {
+        color: #333;
+        font-weight: normal;
+        flex-shrink: 0;
+        white-space: nowrap;
       }
 
       .exam-details {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+        flex: 1;
+        min-width: 0;
       }
 
-      .exam-name {
-        font-size: 2.8rem;
-        font-weight: 600;
-        color: #333;
-        line-height: 1.1;
+      td:nth-child(2),
+      td:nth-child(3) {
+        white-space: nowrap;
+        text-align: right;
+        font-size: 2rem;
+        padding: 6px 12px;
+        vertical-align: top;
       }
 
       .exam-duration {
-        font-size: 2.8rem;
-        color: #666;
-        line-height: 1.1;
+        font-weight: normal;
+        font-size: 1.8rem !important;
       }
 
       .exam-extra {
-        font-size: 2.8rem;
         color: var(--secondary-color);
-        margin-left: 8px;
-        line-height: 1.1;
-      }
-
-      .finish-details {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        align-items: center;
-        text-align: center;
-      }
-
-      .finish-time {
-        font-size: 2.8rem;
-        color: #333;
-        font-weight: 600;
-        line-height: 1.1;
+        font-weight: normal;
+        font-size: 1.8rem !important;
+        display: inline-block;
       }
 
       .extra-time-finish {
-        font-size: 2.8rem;
         color: var(--secondary-color);
-        line-height: 1.1;
-      }
-
-      .ref-cell {
-        font-size: 2.8rem;
-        color: #333;
-        text-align: center;
-        font-weight: 600;
-        line-height: 1.1;
-        word-wrap: break-word;
-        word-break: break-word;
-        overflow-wrap: break-word;
-      }
-
-      .start-time-cell {
-        font-size: 2.8rem;
-        color: #333;
-        text-align: center;
-        font-weight: 600;
-        line-height: 1.1;
+        display: block;
+        font-size: 1.6rem;
+        margin-top: 2px;
       }
 
       /* Add Exam Floating Button */
-      .floating-add-btn {
-        position: fixed;
-        bottom: 40px;
-        right: 40px;
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background: white;
-        color: var(--primary-color);
-        border: 4px solid var(--primary-color);
-        font-size: 2.5rem;
+      /* Add button now in toolbar */
+      .button-container .add-exam-btn {
+        background: white !important;
+        color: var(--primary-color) !important;
+        border: 2px solid var(--primary-color) !important;
+        font-size: 1.5rem !important;
         font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-        transition: all 0.2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 100;
       }
 
-      .floating-add-btn:hover:not(:disabled) {
+      .button-container .add-exam-btn:hover:not(:disabled) {
+        background: var(--primary-color) !important;
+        color: white !important;
         transform: scale(1.1);
-        background: var(--primary-color);
-        color: white;
       }
 
-      .floating-add-btn:disabled {
+      .button-container .add-exam-btn:disabled {
         cursor: not-allowed;
-        background: rgba(255, 255, 255, 0.6);
-        color: rgba(153, 0, 0, 0.4);
-        border-color: rgba(153, 0, 0, 0.4);
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-      }
-
-      /* Tooltip for floating add button */
-      .floating-add-btn[data-tooltip]::before {
-        content: attr(data-tooltip);
-        position: absolute;
-        bottom: calc(100% + 14px);
-        left: 50%;
-        transform: translateX(-50%);
-        background: #000;
-        color: white;
-        padding: 8px 14px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: normal;
-        white-space: nowrap;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: all 0s;
-        z-index: 1001;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      }
-
-      .floating-add-btn[data-tooltip]::after {
-        content: "";
-        position: absolute;
-        bottom: calc(100% + 7px);
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-top: 8px solid #000;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: all 0s;
-        z-index: 1000;
-      }
-
-      .floating-add-btn:hover[data-tooltip]::before,
-      .floating-add-btn:hover[data-tooltip]::after {
-        opacity: 1;
-        visibility: visible;
+        background: rgba(255, 255, 255, 0.6) !important;
+        color: rgba(153, 0, 0, 0.4) !important;
+        border-color: rgba(153, 0, 0, 0.4) !important;
       }
 
       .empty-row {
@@ -1008,6 +977,7 @@
       }
 
       /* Responsive Design */
+      /* OLD MEDIA QUERIES DISABLED - Using height-based queries instead
       @media (max-width: 1400px) {
         .header .clock {
           font-size: 4rem;
@@ -1020,7 +990,11 @@
           padding: 15px 10px;
         }
         td {
-          padding: 15px 10px;
+          padding: 6px 8px;
+        }
+        td:nth-child(2),
+        td:nth-child(3) {
+          padding: 6px 12px;
         }
         .ref-cell {
           font-size: 2.3rem;
@@ -1046,10 +1020,9 @@
       }
 
       @media (max-width: 1024px) {
-        .date-day {
-          font-size: 1.4rem;
-        }
-        .date-full {
+        .date-compact-line1,
+        .date-compact-line2,
+        .date-compact-line3 {
           font-size: 1.4rem;
         }
         .header .clock {
@@ -1080,6 +1053,7 @@
           font-size: 1.3rem;
         }
       }
+      END OLD MEDIA QUERIES */
 
       @media (max-width: 1400px) {
         .header-logo img {
@@ -1145,10 +1119,9 @@
         .centre-number {
           font-size: 1.2rem;
         }
-        .date-day {
-          font-size: 1rem;
-        }
-        .date-full {
+        .date-compact-line1,
+        .date-compact-line2,
+        .date-compact-line3 {
           font-size: 1rem;
         }
         .header .clock {
@@ -1161,15 +1134,19 @@
           padding: 10px 5px;
         }
         td {
-          padding: 12px 5px;
+          padding: 6px 8px;
+        }
+        td:nth-child(2),
+        td:nth-child(3) {
+          padding: 6px 12px;
         }
 
         th:nth-child(1) {
-          width: 15%;
-        } /* Ref */
-        th:nth-child(2) {
-          width: 40%;
+          width: auto;
         } /* Exam Details */
+        th:nth-child(2) {
+          width: 1%;
+        } /* Start */
         th:nth-child(3) {
           width: 15%;
         } /* Start Time */
@@ -1247,6 +1224,238 @@
         .calculated-info {
           font-size: 0.95rem;
           padding: 8px;
+        }
+      }
+      /* Resolution-specific optimizations for target displays */
+      /* Using height ranges to catch viewport variations */
+
+      /* 800x600 - Scale down significantly to fit 6 exams */
+      @media (max-height: 650px) {
+        .header-logo img {
+          height: 3.8rem !important;
+        }
+        .date-full-responsive {
+          font-size: 0.9rem !important;
+        }
+        .date-compact-line1,
+        .date-compact-line2,
+        .date-compact-line3 {
+          font-size: 0.9rem !important;
+        }
+        .centre-label {
+          font-size: 0.85rem !important;
+        }
+        .centre-name,
+        .centre-number {
+          font-size: 1.1rem !important;
+        }
+        .header .clock {
+          font-size: 2rem !important;
+        }
+        th {
+          font-size: 1.3rem !important;
+          padding: 7px 8px !important;
+        }
+        td {
+          padding: 6px 8px !important;
+        }
+        tbody td:nth-child(1) {
+          font-size: 1.6rem !important;
+        }
+        tbody td:nth-child(2),
+        tbody td:nth-child(3) {
+          font-size: 1.6rem !important;
+        }
+        .exam-duration,
+        .exam-extra {
+          font-size: 1.6rem !important;
+        }
+        .extra-time-finish {
+          font-size: 1.6rem !important;
+        }
+      }
+
+      /* 1280x720 - 720p displays */
+      @media (min-height: 651px) and (max-height: 750px) {
+        .header-logo img {
+          height: 5.5rem !important;
+        }
+        .date-full-responsive {
+          font-size: 1.3rem !important;
+        }
+        .date-compact-line1,
+        .date-compact-line2,
+        .date-compact-line3 {
+          font-size: 1.3rem !important;
+        }
+        .centre-label {
+          font-size: 1.1rem !important;
+        }
+        .centre-name,
+        .centre-number {
+          font-size: 1.7rem !important;
+        }
+        .header .clock {
+          font-size: 3.2rem !important;
+        }
+        th {
+          font-size: 1.9rem !important;
+          padding: 12px 10px !important;
+        }
+        td {
+          padding: 10px 10px !important;
+        }
+        tbody td:nth-child(1) {
+          font-size: 2.3rem !important;
+        }
+        tbody td:nth-child(2),
+        tbody td:nth-child(3) {
+          font-size: 2.3rem !important;
+        }
+        .exam-duration,
+        .exam-extra {
+          font-size: 2.3rem !important;
+        }
+        .extra-time-finish {
+          font-size: 2.3rem !important;
+        }
+      }
+
+      /* 1024x768 and 1366x768 - Most common displays */
+      @media (min-height: 751px) and (max-height: 800px) {
+        .header-logo img {
+          height: 6rem !important;
+        }
+        .date-full-responsive {
+          font-size: 1.5rem !important;
+        }
+        .date-compact-line1,
+        .date-compact-line2,
+        .date-compact-line3 {
+          font-size: 1.5rem !important;
+        }
+        .centre-label {
+          font-size: 1.2rem !important;
+        }
+        .centre-name,
+        .centre-number {
+          font-size: 1.9rem !important;
+        }
+        .header .clock {
+          font-size: 3.5rem !important;
+        }
+        th {
+          font-size: 2.1rem !important;
+          padding: 14px 10px !important;
+        }
+        td {
+          padding: 12px 10px !important;
+        }
+        tbody td:nth-child(1) {
+          font-size: 2.5rem !important;
+        }
+        tbody td:nth-child(2),
+        tbody td:nth-child(3) {
+          font-size: 2.5rem !important;
+        }
+        .exam-duration,
+        .exam-extra {
+          font-size: 2.5rem !important;
+        }
+        .extra-time-finish {
+          font-size: 2.5rem !important;
+        }
+      }
+
+      /* 1536x864 - HD+ displays */
+      @media (min-height: 801px) and (max-height: 999px) {
+        .header-logo img {
+          height: 7.5rem !important;
+        }
+        .date-full-responsive {
+          font-size: 1.8rem !important;
+        }
+        .date-compact-line1,
+        .date-compact-line2,
+        .date-compact-line3 {
+          font-size: 1.8rem !important;
+        }
+        .centre-label {
+          font-size: 1.6rem !important;
+        }
+        .centre-name,
+        .centre-number {
+          font-size: 2.5rem !important;
+        }
+        .header .clock {
+          font-size: 4.5rem !important;
+        }
+        th {
+          font-size: 2.7rem !important;
+          padding: 18px 10px !important;
+        }
+        td {
+          padding: 16px 10px !important;
+        }
+        tbody td:nth-child(1) {
+          font-size: 3.2rem !important;
+        }
+        tbody td:nth-child(2),
+        tbody td:nth-child(3) {
+          font-size: 3.2rem !important;
+        }
+        .exam-duration,
+        .exam-extra {
+          font-size: 3.2rem !important;
+        }
+        .extra-time-finish {
+          font-size: 3.2rem !important;
+        }
+      }
+
+      /* 1920x1080 - Full HD, maximize text size */
+      @media (min-height: 1000px) {
+        .header-logo img {
+          height: 8.5rem !important;
+        }
+        .date-full-responsive {
+          font-size: 2rem !important;
+        }
+        .date-compact-line1,
+        .date-compact-line2,
+        .date-compact-line3 {
+          font-size: 2rem !important;
+        }
+        .centre-label {
+          font-size: 1.8rem !important;
+        }
+        .centre-name,
+        .centre-number {
+          font-size: 2.8rem !important;
+        }
+        .header .clock {
+          font-size: 5rem !important;
+        }
+        th {
+          font-size: 3rem !important;
+          padding: 20px 12px !important;
+        }
+        td {
+          padding: 18px 10px !important;
+        }
+        tbody td:nth-child(1) {
+          font-size: 3.6rem !important;
+        }
+        tbody td:nth-child(2),
+        tbody td:nth-child(3) {
+          font-size: 3.6rem !important;
+        }
+        .exam-duration,
+        .exam-extra {
+          font-size: 3.6rem !important;
+        }
+        .extra-time-finish {
+          font-size: 3.6rem !important;
         }
       }
     </style>
@@ -1345,6 +1554,64 @@
                 style="background: #4caf50"
               >
                 Save Centre Details
+              </button>
+            </div>
+          </div>
+
+          <!-- Maximum Exams Section -->
+          <div
+            style="
+              background: #f9f9f9;
+              padding: 20px;
+              border-radius: 12px;
+              margin-bottom: 15px;
+            "
+          >
+            <h3 style="margin-top: 0; margin-bottom: 15px">Maximum Exams</h3>
+            <div style="margin-bottom: 15px">
+              <label
+                for="maxExamsInput"
+                style="
+                  display: block;
+                  margin-bottom: 5px;
+                  font-weight: 600;
+                  font-size: 0.9rem;
+                "
+                >Maximum Number of Exams</label
+              >
+              <input
+                type="number"
+                id="maxExamsInput"
+                min="1"
+                max="12"
+                placeholder="e.g., 6"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  font-size: 1rem;
+                  border: 2px solid #ddd;
+                  border-radius: 8px;
+                "
+              />
+            </div>
+            <div
+              style="
+                text-align: center;
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                margin-top: 15px;
+              "
+            >
+              <button class="reset-colors-btn" onclick="resetMaxExams()">
+                Reset to Default
+              </button>
+              <button
+                class="reset-colors-btn"
+                onclick="saveMaxExams()"
+                style="background: #4caf50"
+              >
+                Save Maximum Exams
               </button>
             </div>
           </div>
@@ -1450,6 +1717,14 @@
           >
             🗑
           </button>
+          <button
+            class="set-start-btn"
+            onclick="openSetStartTimeModal()"
+            data-tooltip="Set start for all exams"
+            aria-label="Set start for all exams"
+          >
+            🕐
+          </button>
 
           <div class="button-spacer"></div>
 
@@ -1550,6 +1825,29 @@
             </svg>
           </a>
 
+          <!-- Changelog -->
+          <button
+            class="changelog-btn"
+            onclick="openChangelog()"
+            data-tooltip="View Changelog"
+            aria-label="View Changelog"
+          >
+            📋
+          </button>
+
+          <div class="button-spacer"></div>
+
+          <!-- Add Exam -->
+          <button
+            class="add-exam-btn"
+            id="floatingAddBtn"
+            onclick="openAddModal()"
+            data-tooltip="Add Exam"
+            aria-label="Add Exam"
+          >
+            +
+          </button>
+
           <!-- Hide/Show Tab -->
           <button
             class="hide-buttons-btn"
@@ -1582,28 +1880,18 @@
           <table>
             <thead>
               <tr>
-                <th>Ref.</th>
-                <th>Subject</th>
+                <th>Exam</th>
                 <th>Start</th>
                 <th>Finish</th>
               </tr>
             </thead>
             <tbody id="examTableBody">
               <tr class="empty-row">
-                <td colspan="4">No exams scheduled.</td>
+                <td colspan="3">No exams scheduled.</td>
               </tr>
             </tbody>
           </table>
         </div>
-
-        <button
-          class="floating-add-btn"
-          id="floatingAddBtn"
-          onclick="openAddModal()"
-          data-tooltip="Add Exam"
-        >
-          +
-        </button>
       </div>
     </div>
 
@@ -1753,15 +2041,97 @@
       </div>
     </div>
 
+    <!-- Set Start Time Modal -->
+    <div class="modal" id="setStartTimeModal">
+      <div class="modal-content">
+        <h2>Set Start Time for All Exams</h2>
+        <form id="setStartTimeForm">
+          <div class="form-group">
+            <label for="newStartTimeInput">New Start Time</label>
+            <input
+              type="time"
+              id="newStartTimeInput"
+              required
+              style="max-width: 200px"
+            />
+          </div>
+          <div class="modal-buttons">
+            <div class="button-group-right">
+              <button
+                type="button"
+                class="btn-secondary"
+                onclick="closeSetStartTimeModal()"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">
+                Set start for all exams
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Changelog Modal -->
+    <div class="modal" id="changelogModal">
+      <div class="modal-content" style="max-width: 600px">
+        <button
+          class="close-settings-btn"
+          onclick="closeChangelog()"
+          style="position: absolute; top: 15px; right: 15px; font-size: 24px"
+        >
+          ×
+        </button>
+        <h2>Changelog</h2>
+        <div
+          id="changelogContent"
+          style="max-height: 400px; overflow-y: auto; padding: 10px 0"
+        >
+          <!-- Changelog will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
     <script>
       // Global state
       let exams = [];
-      const MAX_ROWS = 5;
+      let MAX_ROWS = parseInt(localStorage.getItem("maxExams")) || 6;
       let editingExamId = null;
 
       // Default centre info
       const DEFAULT_CENTRE_NAME = "The Marlborough Science Academy";
       const DEFAULT_CENTRE_NUMBER = "17533";
+
+      // Changelog data
+      const CHANGELOG = [
+        {
+          version: "2.0",
+          date: "5 November 2025",
+          changes: [
+            "Added 'Set Start Time for All Exams' tool - quickly update all exam start times at once",
+            "Made maximum number of exams configurable (adjustable from 1-12 in settings)",
+            "Fixed extra time text placement - now displays under exam name instead of finish time",
+            "Fixed issue where exam durations could show negative values when times crossed midnight",
+            "Improved toolbar layout - made more compact with smaller buttons and spacing",
+            "Moved 'Add Exam' button from floating position to toolbar for better organization",
+            "Fixed 'Show Controls' tooltip positioning - now appears to the right instead of being cut off",
+            "Added tooltip hiding during toolbar slide animation for smoother transitions",
+            "Improved time input width in dialogs for easier use",
+            "Settings dialog now closes automatically after saving changes",
+            "Added keyboard shortcut: press Escape to close settings dialog",
+            "Optimized layout and spacing throughout for better use of screen space",
+            "Improved responsive design with better font sizes across different screen resolutions",
+            "Enhanced exam table layout with better text wrapping and alignment",
+            "Added this changelog to track updates and improvements",
+          ],
+        },
+        {
+          version: "1.0",
+          date: "23 October 2025",
+          changes: ["Initial release"],
+        },
+      ];
 
       // Initialize app
       function init() {
@@ -1785,6 +2155,9 @@
         updateDateTime();
         updateCentreDisplay();
         setInterval(updateDateTime, 1000);
+
+        // Update date format on window resize
+        window.addEventListener("resize", updateDateTime);
 
         // Automatically activate wake lock on page load
         toggleWakeLock();
@@ -1892,12 +2265,12 @@
           displayElement.innerHTML = `
                     ${
                       centreName
-                        ? `<div class="centre-label">Exam Centre:</div><div class="centre-name">${centreName}</div>`
+                        ? `<div class="centre-label">Exam<br>Centre:</div><div class="centre-name">${centreName}</div>`
                         : ""
                     }
                     ${
                       centreNumber
-                        ? `<div class="centre-label">Centre Number:</div><div class="centre-number">${centreNumber}</div>`
+                        ? `<div class="centre-label">Centre<br>Number:</div><div class="centre-number">${centreNumber}</div>`
                         : ""
                     }
                 `;
@@ -1905,6 +2278,37 @@
         } else {
           displayElement.style.display = "none";
         }
+      }
+
+      // Save maximum exams setting
+      function saveMaxExams() {
+        let maxExams = parseInt(document.getElementById("maxExamsInput").value);
+
+        // Validate: must be between 1 and 12
+        if (isNaN(maxExams) || maxExams < 1 || maxExams > 12) {
+          alert("Maximum exams must be between 1 and 12");
+          return;
+        }
+
+        localStorage.setItem("maxExams", maxExams);
+        MAX_ROWS = maxExams;
+
+        // Update the Add Exam button state
+        renderExams();
+
+        // Close settings dialog
+        closeSettings();
+      }
+
+      // Reset maximum exams to default
+      function resetMaxExams() {
+        document.getElementById("maxExamsInput").value = 6;
+        saveMaxExams();
+      }
+
+      // Load maximum exams setting into input
+      function loadMaxExams() {
+        document.getElementById("maxExamsInput").value = MAX_ROWS;
       }
 
       // Load demo exam data
@@ -1961,6 +2365,15 @@
             subject: "History of Magic",
             startTime: "10:00",
             finishTime: "12:30", // 2.5 hours
+            extraTimeEnabled: false,
+            customExtraTime: null,
+          },
+          {
+            id: Date.now() + 6,
+            ref: "MAG106/6",
+            subject: "Care of Magical Creatures",
+            startTime: "10:00",
+            finishTime: "12:00", // 2 hours
             extraTimeEnabled: false,
             customExtraTime: null,
           },
@@ -2168,6 +2581,15 @@
         toggleBtn.setAttribute("data-tooltip", label);
         toggleBtn.setAttribute("aria-label", label);
 
+        // Hide tooltip immediately after click by removing hover state
+        toggleBtn.blur();
+
+        // Add a class to prevent tooltip from showing during transition
+        toggleBtn.classList.add("no-tooltip");
+        setTimeout(() => {
+          toggleBtn.classList.remove("no-tooltip");
+        }, 500);
+
         // Save state to localStorage
         localStorage.setItem("buttonsHidden", isHidden);
       }
@@ -2223,6 +2645,7 @@
         document.getElementById("closeSettingsBtn").classList.add("show");
         loadColors();
         loadCentreInfo();
+        loadMaxExams();
       }
 
       // Close settings
@@ -2236,15 +2659,35 @@
       function updateDateTime() {
         const now = new Date();
 
-        // Update date in two lines: Day name on top, date on bottom
-        const weekday = now.toLocaleDateString("en-GB", { weekday: "long" });
-        const day = now.getDate();
-        const month = now.toLocaleDateString("en-GB", { month: "long" });
-        const year = now.getFullYear();
-        document.getElementById("displayDate").innerHTML = `
-                <div class="date-day">${weekday}</div>
-                <div class="date-full">${day} ${month} ${year}</div>
+        // Update date - use full or abbreviated format based on viewport size
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        // Use full format at larger resolutions - relaxed threshold
+        const useCompact = !(viewportWidth >= 1600 && viewportHeight >= 900);
+
+        if (useCompact) {
+          const weekdayShort = now.toLocaleDateString("en-GB", {
+            weekday: "short",
+          });
+          const day = now.getDate();
+          const monthShort = now.toLocaleDateString("en-GB", {
+            month: "short",
+          });
+          const year = now.getFullYear();
+          document.getElementById("displayDate").innerHTML = `
+                <div class="date-compact-line1">${weekdayShort}</div>
+                <div class="date-compact-line2">${day} ${monthShort}</div>
+                <div class="date-compact-line3">${year}</div>
             `;
+        } else {
+          const weekday = now.toLocaleDateString("en-GB", { weekday: "long" });
+          const day = now.getDate();
+          const month = now.toLocaleDateString("en-GB", { month: "long" });
+          const year = now.getFullYear();
+          document.getElementById("displayDate").innerHTML = `
+                <div class="date-full-responsive">${weekday} ${day} ${month} ${year}</div>
+            `;
+        }
 
         // Update clock with seconds
         const hours = String(now.getHours()).padStart(2, "0");
@@ -2276,7 +2719,14 @@
         const [finishH, finishM] = finishTime.split(":").map(Number);
         const startMinutes = startH * 60 + startM;
         const finishMinutes = finishH * 60 + finishM;
-        return finishMinutes - startMinutes;
+        let duration = finishMinutes - startMinutes;
+
+        // Handle midnight crossover (if finish is before start, it's next day)
+        if (duration < 0) {
+          duration += 24 * 60; // Add 24 hours in minutes
+        }
+
+        return duration;
       }
 
       // Format minutes to readable text
@@ -2569,6 +3019,92 @@
         editingExamId = null;
       }
 
+      // Set Start Time Modal functions
+      function openSetStartTimeModal() {
+        document.getElementById("setStartTimeModal").classList.add("active");
+        // Set default time: first exam's start time if exists, otherwise current time
+        let defaultTime;
+        if (exams.length > 0 && exams[0].startTime) {
+          defaultTime = exams[0].startTime;
+        } else {
+          const now = new Date();
+          const hours = String(now.getHours()).padStart(2, "0");
+          const minutes = String(now.getMinutes()).padStart(2, "0");
+          defaultTime = `${hours}:${minutes}`;
+        }
+        document.getElementById("newStartTimeInput").value = defaultTime;
+      }
+
+      function closeSetStartTimeModal() {
+        document.getElementById("setStartTimeModal").classList.remove("active");
+        document.getElementById("setStartTimeForm").reset();
+      }
+
+      // Changelog Modal functions
+      function openChangelog() {
+        const modal = document.getElementById("changelogModal");
+        const content = document.getElementById("changelogContent");
+
+        // Generate changelog HTML
+        let html = "";
+        CHANGELOG.forEach((version) => {
+          html += `
+            <div style="margin-bottom: 30px;">
+              <h3 style="margin: 0 0 5px 0; color: #8B0000;">Version ${
+                version.version
+              }</h3>
+              <p style="margin: 0 0 10px 0; color: #666; font-size: 0.9rem;">${
+                version.date
+              }</p>
+              <ol style="margin: 0; padding-left: 30px;">
+                ${version.changes
+                  .map(
+                    (change) => `<li style="margin-bottom: 5px;">${change}</li>`
+                  )
+                  .join("")}
+              </ol>
+            </div>
+          `;
+        });
+
+        content.innerHTML = html;
+        modal.classList.add("active");
+      }
+
+      function closeChangelog() {
+        document.getElementById("changelogModal").classList.remove("active");
+      }
+
+      // Handle set start time form submission
+      document
+        .getElementById("setStartTimeForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const newStartTime =
+            document.getElementById("newStartTimeInput").value;
+
+          if (!newStartTime) {
+            return;
+          }
+
+          // Update all exams with the new start time
+          exams.forEach((exam) => {
+            const oldStartTime = exam.startTime;
+            exam.startTime = newStartTime;
+
+            // Recalculate finish time based on duration
+            const durationMinutes = calculateDuration(
+              oldStartTime,
+              exam.finishTime
+            );
+            exam.finishTime = addMinutesToTime(newStartTime, durationMinutes);
+          });
+
+          renderExams();
+          saveExams();
+          closeSetStartTimeModal();
+        });
+
       // Handle form submission
       document
         .getElementById("examForm")
@@ -2645,7 +3181,7 @@
 
         if (exams.length === 0) {
           tbody.innerHTML =
-            '<tr class="empty-row"><td colspan="4">No exams scheduled.</td></tr>';
+            '<tr class="empty-row"><td colspan="3">No exams scheduled.</td></tr>';
         } else {
           tbody.innerHTML = exams
             .map((exam) => {
@@ -2667,34 +3203,34 @@
                 extraMinutes
               );
 
-              const durationWithExtra =
+              const extraTimeText =
                 exam.extraTimeEnabled !== false
-                  ? `${duration} <span class="exam-extra">(Extra Time ${extraTime})</span>`
-                  : duration;
+                  ? ` <span class="exam-extra">(Extra Time ${extraTime})</span>`
+                  : "";
 
-              const extraFinishHTML =
+              const extraFinishTime =
                 exam.extraTimeEnabled !== false
-                  ? `
-                        <div class="extra-time-finish">XT ${extraTimeFinish}</div>
-                    `
+                  ? `<span class="extra-time-finish">XT ${extraTimeFinish}</span>`
                   : "";
 
               return `
-                        <tr onclick="openEditModal(${exam.id})" data-exam-id="${exam.id}">
-                            <td class="ref-cell">${exam.ref}</td>
+                        <tr onclick="openEditModal(${exam.id})" data-exam-id="${
+                exam.id
+              }">
                             <td>
-                                <div class="exam-details">
-                                    <div class="exam-name">${exam.subject}</div>
-                                    <div class="exam-duration">${durationWithExtra}</div>
-                                </div>
+                              <div class="exam-content">
+                                <span class="exam-ref">${exam.ref}: </span>
+                                <span class="exam-details">${
+                                  exam.subject
+                                } <span class="exam-duration">(${duration})</span>${
+                extraTimeText ? "<br>" + extraTimeText : ""
+              }</span>
+                              </div>
                             </td>
-                            <td class="start-time-cell">${exam.startTime}</td>
-                            <td>
-                                <div class="finish-details">
-                                    <div class="finish-time">${exam.finishTime}</div>
-                                    ${extraFinishHTML}
-                                </div>
-                            </td>
+                            <td>${exam.startTime}</td>
+                            <td>${exam.finishTime}${
+                extraFinishTime ? "<br>" + extraFinishTime : ""
+              }</td>
                         </tr>
                     `;
             })
@@ -2706,7 +3242,7 @@
         floatingBtn.disabled = isMaxed;
         floatingBtn.setAttribute(
           "data-tooltip",
-          isMaxed ? "Maximum 5 exams" : "Add Exam"
+          isMaxed ? "Maximum 6 exams" : "Add Exam"
         );
       }
 
@@ -2718,6 +3254,42 @@
             closeModal();
           }
         });
+
+      document
+        .getElementById("setStartTimeModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeSetStartTimeModal();
+          }
+        });
+
+      document
+        .getElementById("changelogModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeChangelog();
+          }
+        });
+
+      // Close modal on Escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          const examModal = document.getElementById("examModal");
+          const setStartModal = document.getElementById("setStartTimeModal");
+          const changelogModal = document.getElementById("changelogModal");
+          const settingsScreen = document.getElementById("settingsScreen");
+
+          if (examModal.classList.contains("active")) {
+            closeModal();
+          } else if (setStartModal.classList.contains("active")) {
+            closeSetStartTimeModal();
+          } else if (changelogModal.classList.contains("active")) {
+            closeChangelog();
+          } else if (settingsScreen.style.display === "flex") {
+            closeSettings();
+          }
+        }
+      });
 
       // Start the app
       init();
