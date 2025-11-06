@@ -586,7 +586,7 @@
         color: #333;
         line-height: 1.2;
         text-align: left;
-        word-wrap: break-word;
+        white-space: nowrap;
       }
 
       .centre-number {
@@ -1520,7 +1520,7 @@
                   <input
                     type="text"
                     id="centreNameInput"
-                    placeholder="e.g., Marlborough Science Academy"
+                    placeholder="e.g., The Marlborough Science Academy"
                     style="
                       width: 100%;
                       padding: 10px;
@@ -2180,6 +2180,12 @@
       // Initialize app
       function init() {
         loadColors();
+
+        // Migrate old centre name to new format (add "The" if missing)
+        const currentCentreName = localStorage.getItem("centreName");
+        if (currentCentreName === "Marlborough Science Academy") {
+          localStorage.setItem("centreName", DEFAULT_CENTRE_NAME);
+        }
 
         // Set default centre info if not already set
         if (!localStorage.getItem("centreName")) {
