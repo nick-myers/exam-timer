@@ -10,13 +10,15 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
-    "serve": "http-server -p 8080"
+    "serve": "http-server -p 8080",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "husky": "^9.1.7"
   }
 }
