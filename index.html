@@ -57,6 +57,18 @@
         display: flex;
         flex-direction: column;
         position: relative;
+        transition: padding 0.3s ease;
+      }
+
+      /* TV Safe Area Mode */
+      body.safe-area-active {
+        background: white;
+      }
+
+      .container.safe-area-mode {
+        padding: 30px;
+        height: calc(100vh - 60px);
+        width: calc(100% - 60px);
       }
 
       /* School Name Entry Screen */
@@ -359,6 +371,7 @@
       .set-start-btn,
       .wake-lock-btn,
       .fullscreen-btn,
+      .safe-area-btn,
       .github-btn,
       .website-btn,
       .changelog-btn,
@@ -377,6 +390,7 @@
       .button-container .set-start-btn,
       .button-container .wake-lock-btn,
       .button-container .fullscreen-btn,
+      .button-container .safe-area-btn,
       .button-container .github-btn,
       .button-container .website-btn,
       .button-container .changelog-btn,
@@ -450,6 +464,12 @@
       }
 
       .fullscreen-btn.active {
+        background: #2196f3 !important;
+        border-color: #2196f3 !important;
+        color: white !important;
+      }
+
+      .safe-area-btn.active {
         background: #2196f3 !important;
         border-color: #2196f3 !important;
         color: white !important;
@@ -1741,6 +1761,19 @@
 
           <div class="button-spacer"></div>
 
+          <!-- TV Safe Area -->
+          <button
+            id="safeAreaBtn"
+            class="safe-area-btn"
+            onclick="toggleSafeArea()"
+            data-tooltip="TV Safe Area Mode"
+            aria-label="Toggle TV Safe Area Mode"
+          >
+            📺
+          </button>
+
+          <div class="button-spacer"></div>
+
           <!-- Zoom Controls -->
           <button
             id="zoomOutBtn"
@@ -2105,6 +2138,17 @@
 
       // Changelog data
       const CHANGELOG = [
+        {
+          version: "3.0",
+          date: "6 November 2025",
+          changes: [
+            "Added TV Safe Area Mode - toggle button that adds padding to prevent content from being cut off by TV overscan",
+            "Safe area mode uses white background instead of red gradient for less distraction",
+            "Safe area mode preference is saved and persists across page reloads",
+            "Added keyboard shortcut: press 'C' to toggle toolbar visibility (helpful when toolbar is cut off by TV edges)",
+            "Added click on header area to toggle toolbar visibility (alternative to using the toolbar button)",
+          ],
+        },
         {
           version: "2.0",
           date: "5 November 2025",
@@ -2537,6 +2581,38 @@
         }
       });
 
+      // TV Safe Area functionality
+      function toggleSafeArea() {
+        const container = document.querySelector(".container");
+        const body = document.body;
+        const btn = document.getElementById("safeAreaBtn");
+
+        container.classList.toggle("safe-area-mode");
+        body.classList.toggle("safe-area-active");
+
+        if (container.classList.contains("safe-area-mode")) {
+          btn.classList.add("active");
+          localStorage.setItem("safeAreaMode", "enabled");
+        } else {
+          btn.classList.remove("active");
+          localStorage.setItem("safeAreaMode", "disabled");
+        }
+      }
+
+      // Initialize safe area mode from localStorage
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.querySelector(".container");
+        const body = document.body;
+        const btn = document.getElementById("safeAreaBtn");
+        const safeAreaMode = localStorage.getItem("safeAreaMode");
+
+        if (safeAreaMode === "enabled") {
+          container.classList.add("safe-area-mode");
+          body.classList.add("safe-area-active");
+          btn.classList.add("active");
+        }
+      });
+
       // Zoom functionality
       let currentZoom = parseInt(localStorage.getItem("zoomLevel")) || 100;
 
@@ -2614,6 +2690,28 @@
 
       // Call on page load
       restoreButtonVisibility();
+
+      // Add keyboard shortcut to toggle controls (C key)
+      document.addEventListener("keydown", (event) => {
+        // Only trigger if C is pressed and user is not typing in an input/textarea
+        const isTyping =
+          event.target.tagName === "INPUT" ||
+          event.target.tagName === "TEXTAREA" ||
+          event.target.isContentEditable;
+
+        if (event.key === "c" && !isTyping) {
+          toggleButtons();
+        }
+      });
+
+      // Add click handler to header to toggle controls
+      const header = document.querySelector(".header");
+      if (header) {
+        header.style.cursor = "pointer";
+        header.addEventListener("click", () => {
+          toggleButtons();
+        });
+      }
 
       // Disable browser tooltips for elements with data-tooltip
       function disableBrowserTooltips() {

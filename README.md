@@ -18,6 +18,7 @@ This is a single HTML file that displays exam information (reference numbers, su
 - **Large, readable text** - Designed to be visible from across a room
 - **Adjustable text size** - Built-in zoom controls (50%-200%) with persistent settings
 - **Fullscreen mode** - Maximize screen space for better visibility
+- **TV Safe Area Mode** - Adds padding to prevent content from being cut off by TV overscan
 - **Automatic time calculations** - Calculates finish times including extra time allowances (default 25%, customizable)
 - **Bulk time updates** - Set start time for all exams at once with a single click
 - **Configurable exam limit** - Adjust maximum number of exams (1-12) to suit your needs
@@ -57,7 +58,7 @@ All information is stored in the browser's localStorage on the device, including
 - Exam data (references, subjects, times, extra time settings)
 - Centre details (name and number)
 - Color preferences
-- Display preferences (zoom level, control panel visibility)
+- Display preferences (zoom level, control panel visibility, TV safe area mode)
 
 This means:
 
@@ -153,6 +154,9 @@ The application includes a compact toolbar in the bottom left corner with severa
 
 - Click the **◀ button** on the right edge of the control panel to hide all buttons for a cleaner display
 - Click the **▶ button** (when hidden) to show the controls again
+- **Alternative ways to toggle controls** (useful if toolbar is cut off by TV overscan):
+  - Press the **C key** on your keyboard (won't trigger when typing in input fields)
+  - Click anywhere on the **header area** (logo, centre name, clock section)
 - Control visibility state is saved and restored when you reload the page
 
 #### Settings and Management
@@ -167,6 +171,11 @@ The application includes a compact toolbar in the bottom left corner with severa
   - Gray icon = Normal windowed mode
   - Blue icon = Fullscreen mode active
   - Press ESC key to exit fullscreen at any time
+- **📺 (TV Safe Area)** - Add padding around content to prevent TV overscan from cutting off edges
+  - Gray icon = Normal display mode
+  - Blue icon = Safe area mode active (30px padding on all sides with white background)
+  - Setting is saved and restored when you reload the page
+  - Useful for TVs with overscan issues where edges of content are cut off
 
 #### Text Size Controls
 
