@@ -102,20 +102,23 @@ test.describe('UI Controls and Features', () => {
   });
 
 
-  test.skip('should hide and show buttons', async ({ page }) => {
-    const hideBtn = page.locator('.hide-buttons-btn');
+  test('should hide and show buttons', async ({ page }) => {
+    const toggleBtn = page.locator('.hide-buttons-btn');
     const buttonContainer = page.locator('#buttonContainer');
 
-    // Initially visible
-    await expect(buttonContainer).toBeVisible();
+    // Initially visible (not hidden)
+    await expect(buttonContainer).not.toHaveClass(/hidden/);
+    await expect(toggleBtn).toContainText('◀');
 
     // Hide buttons
-    await hideBtn.click();
-    await expect(buttonContainer).toHaveCSS('opacity', '0');
+    await toggleBtn.click();
+    await expect(buttonContainer).toHaveClass(/hidden/);
+    await expect(toggleBtn).toContainText('▶');
 
-    // Hover to show buttons again
-    await page.locator('.container').hover();
-    // Note: This may need adjustment based on actual hover behavior
+    // Show buttons again
+    await toggleBtn.click();
+    await expect(buttonContainer).not.toHaveClass(/hidden/);
+    await expect(toggleBtn).toContainText('◀');
   });
 
   test('should toggle wake lock', async ({ page }) => {
