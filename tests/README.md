@@ -7,6 +7,7 @@ This directory contains the automated test suite for the Exam Timer application 
 The test suite is organized into four main files:
 
 1. **settings.spec.js** - Tests for settings and persistence
+
    - Centre information save/load
    - Color customization
    - Max exams configuration
@@ -14,6 +15,7 @@ The test suite is organized into four main files:
    - Settings reset functionality
 
 2. **exam-management.spec.js** - Tests for exam CRUD operations
+
    - Adding new exams
    - Editing existing exams
    - Deleting individual exams
@@ -24,6 +26,7 @@ The test suite is organized into four main files:
    - Maximum exam limits
 
 3. **ui-controls.spec.js** - Tests for UI controls and features
+
    - Fullscreen mode
    - TV safe area mode
    - Zoom controls (in, out, reset)
@@ -86,6 +89,7 @@ npm run test:report
 ## Continuous Integration
 
 Tests automatically run on:
+
 - Every push to `main` branch
 - Every pull request to `main` branch
 
@@ -94,6 +98,7 @@ See `.github/workflows/test.yml` for CI configuration.
 ## Test Coverage
 
 The test suite covers:
+
 - ✅ Settings persistence (localStorage)
 - ✅ All CRUD operations for exams
 - ✅ UI controls and interactions
