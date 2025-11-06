@@ -1,0 +1,22 @@
+{
+  "name": "exam-timer",
+  "version": "1.0.0",
+  "description": "A simple, safe, and offline-friendly exam timer designed for displaying exam schedules on screens in exam rooms.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "serve": "http-server -p 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "http-server": "^14.1.1"
+  }
+}
